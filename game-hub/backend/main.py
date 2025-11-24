@@ -28,8 +28,8 @@ games_db = [
         "id": "vscode-stealth",
         "title": "VS Code Stealth Runner",
         "description": "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
-        "thumbnail": "/games/vscode-stealth-game/thumbnail.png", # We'll need to create this or use a placeholder
-        "url": "/games/vscode-stealth-game/index.html",
+        "thumbnail": "https://placehold.co/600x400/007acc/ffffff?text=VS+Code+Stealth", 
+        "url": "https://vscode-stealth-game-deploy.vercel.app", # Updated to point to separate deployment
         "category": "Action"
     },
     {

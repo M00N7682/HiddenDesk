@@ -14,20 +14,49 @@ interface Game {
 }
 
 export default function Home() {
-  const [games, setGames] = useState<Game[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Fallback data in case API fails or is loading
+  const initialGames: Game[] = [
+    {
+      id: "vscode-stealth",
+      title: "VS Code Stealth Runner",
+      description: "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
+      thumbnail: "/games/vscode-stealth-game/thumbnail.png", 
+      url: "https://vscode-stealth-game-deploy.vercel.app", // Placeholder for separate deployment
+      category: "Action"
+    },
+    {
+      id: "coming-soon-1",
+      title: "Neon Racer",
+      description: "Cyberpunk racing game coming soon.",
+      thumbnail: "https://placehold.co/600x400/1a1a1a/ffffff?text=Neon+Racer",
+      url: "#",
+      category: "Racing"
+    },
+    {
+      id: "coming-soon-2",
+      title: "Pixel Quest",
+      description: "An epic 8-bit adventure awaits.",
+      thumbnail: "https://placehold.co/600x400/1a1a1a/ffffff?text=Pixel+Quest",
+      url: "#",
+      category: "RPG"
+    }
+  ];
+
+  const [games, setGames] = useState<Game[]>(initialGames);
+  const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
 
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
     fetch(`${apiUrl}/api/games`)
       .then((res) => res.json())
       .then((data) => {
-        setGames(data);
-        setLoading(false);
+        if (data && data.length > 0) {
+          setGames(data);
+        }
       })
       .catch((err) => {
-        console.error("Failed to fetch games:", err);
-        setLoading(false);
+        console.error("Failed to fetch games, using fallback:", err);
+        // Keep using initialGames if fetch fails
       });
   }, []);
 
