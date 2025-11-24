@@ -28,15 +28,15 @@ games_db = [
         "id": "vscode-stealth",
         "title": "VS Code Stealth Runner",
         "description": "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
-        "thumbnail": "https://placehold.co/600x400/007acc/ffffff?text=VS+Code+Stealth", 
-        "url": "https://game1-xi-snowy.vercel.app/", # Updated to point to separate deployment
+        "thumbnail": "/thumbnails/vscode-stealth.png", 
+        "url": "https://vscode-stealth-game-deploy.vercel.app", 
         "category": "Action"
     },
     {
         "id": "coming-soon-1",
         "title": "Neon Racer",
         "description": "Cyberpunk racing game coming soon.",
-        "thumbnail": "https://placehold.co/600x400/1a1a1a/ffffff?text=Neon+Racer",
+        "thumbnail": "/thumbnails/neon-racer.png",
         "url": "#",
         "category": "Racing"
     },
@@ -44,7 +44,7 @@ games_db = [
         "id": "coming-soon-2",
         "title": "Pixel Quest",
         "description": "An epic 8-bit adventure awaits.",
-        "thumbnail": "https://placehold.co/600x400/1a1a1a/ffffff?text=Pixel+Quest",
+        "thumbnail": "/thumbnails/pixel-quest.png",
         "url": "#",
         "category": "RPG"
     }

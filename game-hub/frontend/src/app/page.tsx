@@ -20,15 +20,15 @@ export default function Home() {
       id: "vscode-stealth",
       title: "VS Code Stealth Runner",
       description: "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
-      thumbnail: "https://placehold.co/600x400/007acc/ffffff?text=VS+Code+Stealth", 
-      url: "https://game1-xi-snowy.vercel.app/", // Placeholder for separate deployment
+      thumbnail: "/thumbnails/codedash.png", 
+      url: "https://vscode-stealth-game-deploy.vercel.app", 
       category: "Action"
     },
     {
       id: "coming-soon-1",
       title: "Neon Racer",
       description: "Cyberpunk racing game coming soon.",
-      thumbnail: "https://placehold.co/600x400/1a1a1a/ffffff?text=Neon+Racer",
+      thumbnail: "/thumbnails/neon-racer.png",
       url: "#",
       category: "Racing"
     },
@@ -36,13 +36,11 @@ export default function Home() {
       id: "coming-soon-2",
       title: "Pixel Quest",
       description: "An epic 8-bit adventure awaits.",
-      thumbnail: "https://placehold.co/600x400/1a1a1a/ffffff?text=Pixel+Quest",
+      thumbnail: "/thumbnails/pixel-quest.png",
       url: "#",
       category: "RPG"
     }
-  ];
-
-  const [games, setGames] = useState<Game[]>(initialGames);
+  ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
 
   useEffect(() => {
@@ -113,26 +111,12 @@ export default function Home() {
             {games.map((game) => (
               <div key={game.id} className="group bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-gray-500 transition-all hover:shadow-2xl hover:-translate-y-1">
                 <div className="relative h-48 w-full bg-gray-700 overflow-hidden">
-                  {game.thumbnail.startsWith("/") ? (
-                     // Local image or placeholder logic
-                     <div className="w-full h-full flex items-center justify-center bg-gray-900 text-gray-500">
-                        {game.id === "vscode-stealth" ? (
-                            <div className="text-center">
-                                <div className="text-4xl mb-2"></div>
-                                <div className="text-xs font-mono">VS Code Stealth</div>
-                            </div>
-                        ) : (
-                            <span>No Image</span>
-                        )}
-                     </div>
-                  ) : (
-                    <Image
-                        src={game.thumbnail}
-                        alt={game.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  )}
+                  <Image
+                      src={game.thumbnail}
+                      alt={game.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                   <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-white">
                     {game.category}
                   </div>
