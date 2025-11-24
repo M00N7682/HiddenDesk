@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index.html - vscode-stealth-game - Visual Studio Code</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Consolas&family=Segoe+UI:wght@400;600&display=swap');
+
+        :root {
+            --bg-color: #1e1e1e;
+            --sidebar-bg: #252526;
+            --activity-bar-bg: #333333;
+            --title-bar-bg: #3c3c3c;
+            --status-bar-bg: #007acc;
+            --panel-bg: #1e1e1e;
+            --border-color: #3e3e42;
+            --text-color: #cccccc;
+            --accent-color: #007acc;
+            --hover-bg: #2a2d2e;
+            --selection-bg: #37373d;
+            --tab-inactive-bg: #2d2d2d;
+            
+            /* Syntax Highlighting */
+            --code-keyword: #569cd6;
+            --code-variable: #9cdcfe;
+            --code-string: #ce9178;
+            --code-comment: #6a9955;
+            --code-class: #4ec9b0;
+            --code-function: #dcdcaa;
+            --code-number: #b5cea8;
+            --code-tag: #808080;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none; 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Title Bar */
+        .title-bar {
+            height: 30px;
+            background-color: var(--title-bar-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 12px;
+        }
+
+        .title-icon {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-bar {
+            display: flex;
+            font-size: 13px;
+        }
+
+        .menu-bar span {
+            padding: 0 8px;
+            cursor: pointer;
+            color: #cccccc;
+        }
+
+        .menu-bar span:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .title-text {
+            flex-grow: 1;
+            text-align: center;
+            color: #cccccc;
+            font-size: 12px;
+        }
+
+        .window-controls {
+            display: flex;
+            height: 100%;
+        }
+
+        .window-controls .control {
+            width: 46px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .window-controls .control:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .window-controls .control.close:hover {
+            background-color: #e81123;
+            color: white;
+        }
+
+        /* Main Body */
+        .main-body {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* Activity Bar */
+        .activity-bar {
+            width: 48px;
+            background-color: var(--activity-bar-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 0;
+        }
+
+        .action-item {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #858585;
+            font-size: 24px;
+            border-left: 2px solid transparent;
+            opacity: 0.6;
+        }
+
+        .action-item.active {
+            color: #fff;
+            border-left-color: #fff;
+            opacity: 1;
+        }
+
+        .action-item:hover {
+            color: #fff;
+            opacity: 1;
+        }
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+        }
+
+        .sidebar-title {
+            padding: 10px 20px;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #bbbbbb;
+            height: 35px;
+        }
+
+        .sidebar-content {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .section-header {
+            padding: 4px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #cccccc;
+            font-size: 11px;
+        }
+
+        .section-header:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .section-header i {
+            font-size: 10px;
+        }
+
+        .folder-header {
+            padding: 3px 20px 3px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #cccccc;
+        }
+
+        .folder-header:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .folder-header i {
+            font-size: 10px;
+        }
+
+        .file-item {
+            padding: 3px 20px 3px 48px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #cccccc;
+        }
+
+        .file-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .file-item.active {
+            background-color: var(--selection-bg);
+            color: #fff;
+        }
+
+        .file-item .label {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-item .value {
+            color: var(--code-number);
+            font-size: 0.9em;
+        }
+
+        .yellow { color: #f1e05a; }
+        .blue { color: #519aba; }
+        .orange { color: #e34c26; }
+        .green { color: var(--code-comment); }
+
+        /* Editor Area */
+        .editor-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-color);
+        }
+
+        .tabs-bar {
+            height: 35px;
+            background-color: var(--sidebar-bg);
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--tab-inactive-bg);
+            border-right: 1px solid var(--border-color);
+            cursor: pointer;
+            min-width: 120px;
+            max-width: 200px;
+            color: #969696;
+            font-size: 13px;
+        }
+
+        .tab.active {
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--accent-color);
+            color: #fff;
+        }
+
+        .close-tab {
+            margin-left: auto;
+            font-size: 12px;
+            opacity: 0;
+            padding: 2px;
+            border-radius: 3px;
+        }
+
+        .tab:hover .close-tab {
+            opacity: 1;
+        }
+
+        .close-tab:hover {
+            background-color: #444;
+        }
+
+        .breadcrumbs {
+            height: 22px;
+            display: flex;
+            align-items: center;
+            padding-left: 16px;
+            font-size: 13px;
+            color: #999;
+            background-color: var(--bg-color);
+        }
+
+        .editor-container {
+            flex-grow: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .editor-content {
+            flex-grow: 1;
+            display: flex;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-y: auto;
+            cursor: text;
+            outline: none;
+        }
+
+        .line-numbers {
+            width: 60px;
+            text-align: right;
+            padding-right: 20px;
+            color: #858585;
+            padding-top: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-layer {
+            padding-top: 10px;
+            padding-left: 10px;
+            color: var(--text-color);
+            white-space: pre;
+        }
+
+        /* Syntax Highlighting Classes */
+        .keyword { color: var(--code-keyword); }
+        .variable { color: var(--code-variable); }
+        .string { color: var(--code-string); }
+        .comment { color: var(--code-comment); }
+        .class { color: var(--code-class); }
+        .function { color: var(--code-function); }
+        .number { color: var(--code-number); }
+        .tag { color: var(--code-tag); }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: #fff;
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+            margin-top: 14px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Minimap */
+        .minimap {
+            width: 60px;
+            background-color: var(--bg-color);
+            opacity: 0.5;
+            border-left: 1px solid #333;
+        }
+
+        /* Panel (Terminal) */
+        .panel {
+            height: 180px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--panel-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            gap: 25px;
+            padding: 8px 20px;
+            font-size: 11px;
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .panel-header span {
+            cursor: pointer;
+            color: #969696;
+            padding-bottom: 4px;
+            border-bottom: 1px solid transparent;
+        }
+
+        .panel-header span:hover {
+            color: #e7e7e7;
+        }
+
+        .panel-header span.active-tab {
+            color: #e7e7e7;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .terminal-content {
+            flex-grow: 1;
+            padding: 10px 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 2px;
+        }
+
+        .path { color: #b5cea8; }
+        .command { color: #dcdcaa; }
+
+        /* Status Bar */
+        .status-bar {
+            height: 22px;
+            background-color: var(--status-bar-bg);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+            cursor: default;
+        }
+
+        .left-items, .right-items {
+            display: flex;
+            gap: 15px;
+        }
+
+        .item {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #424242;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4f4f4f;
+        }
+
+        /* Upgrade Item Styling */
+        .sidebar-list {
+            padding-top: 5px;
+        }
+
+        .upgrade-item {
+            padding: 4px 20px 4px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #cccccc;
+            font-size: 12px;
+        }
+
+        .upgrade-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .upgrade-item.can-buy {
+            opacity: 1;
+        }
+
+        .upgrade-item.cannot-buy {
+            opacity: 0.5;
+        }
+
+        .upgrade-icon {
+            width: 16px;
+            text-align: center;
+            color: #858585;
+        }
+
+        .upgrade-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upgrade-name {
+            font-weight: normal;
+        }
+
+        .upgrade-cost {
+            color: #858585;
+            font-size: 0.9em;
+            margin-left: auto;
+        }
+
+        .mt-2 {
+            margin-top: 10px;
+        }
+
+        /* Bug Styling */
+        .bug {
+            text-decoration: underline wavy #f14c4c;
+            cursor: pointer;
+            position: relative;
+            background-color: rgba(241, 76, 76, 0.1);
+        }
+        .bug:hover::after {
+            content: "Click to Fix Bug";
+            position: absolute;
+            top: -25px;
+            left: 0;
+            background: #252526;
+            border: 1px solid #454545;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #cccccc;
+            z-index: 100;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Notification Toast */
+        .notification-container {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .notification {
+            background-color: #252526;
+            color: #cccccc;
+            padding: 12px 15px;
+            border-radius: 3px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: 300px;
+            border-left: 3px solid #007acc;
+            animation: slideIn 0.3s ease-out;
+            cursor: pointer;
+        }
+
+        .notification.error { border-left-color: #f14c4c; }
+        .notification.warning { border-left-color: #cca700; }
+        .notification.success { border-left-color: #4ec9b0; }
+
+        .notification-icon {
+            padding-top: 2px;
+        }
+
+        .notification-content {
+            flex-grow: 1;
+            font-size: 12px;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .notification-message {
+            color: #999;
+            line-height: 1.4;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Combo Meter */
+        .combo-meter {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-family: 'Consolas', monospace;
+            font-weight: bold;
+            color: #4ec9b0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .combo-meter.active {
+            opacity: 1;
+        }
+
+        /* Runner Game Styles */
+        .player-cursor {
+            background-color: #007acc;
+            color: white;
+            outline: 1px solid #fff;
+            display: inline-block;
+            min-width: 8px;
+        }
+        
+        .obstacle {
+            background-color: rgba(241, 76, 76, 0.2);
+            text-decoration: underline wavy #f14c4c;
+            color: #f14c4c !important;
+        }
+        
+        .powerup {
+            background-color: rgba(78, 201, 176, 0.2);
+            color: #4ec9b0 !important;
+            font-weight: bold;
+            border: 1px solid #4ec9b0;
+        }
+
+        .health-display {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Title Bar -->
+        <div class="title-bar">
+            <div class="title-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VS Code" style="height: 18px;"></div>
+            <div class="menu-bar">
+                <span>File</span>
+                <span>Edit</span>
+                <span>Selection</span>
+                <span>View</span>
+                <span>Go</span>
+                <span>Run</span>
+                <span>Terminal</span>
+                <span>Help</span>
+            </div>
+            <div class="title-text">index.html - vscode-stealth-game - Visual Studio Code</div>
+            <div class="window-controls">
+                <div class="control minimize"><i class="fa-solid fa-minus"></i></div>
+                <div class="control maximize"><i class="fa-regular fa-square"></i></div>
+                <div class="control close"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+        </div>
+
+        <div class="main-body">
+            <!-- Activity Bar -->
+            <div class="activity-bar">
+                <div class="action-item active"><i class="fa-regular fa-file"></i></div>
+                <div class="action-item"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="action-item"><i class="fa-solid fa-code-branch"></i></div>
+                <div class="action-item"><i class="fa-solid fa-play"></i></div>
+                <div class="action-item"><i class="fa-solid fa-cubes"></i></div>
+                <div class="spacer"></div>
+                <div class="action-item"><i class="fa-regular fa-circle-user"></i></div>
+                <div class="action-item"><i class="fa-solid fa-gear"></i></div>
+            </div>
+
+            <!-- Sidebar (Explorer / Upgrades) -->
+            <div class="sidebar">
+                <div class="sidebar-title">
+                    <span>EXPLORER</span>
+                    <div class="sidebar-actions">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+                <div class="sidebar-content">
+                    <div class="section-header"><i class="fa-solid fa-angle-down"></i> FAKEVSCODE</div>
+                    
+                    <div class="folder-item">
+                        <div class="folder-header"><i class="fa-solid fa-angle-down"></i> vscode-stealth-game</div>
+                        <div class="folder-content">
+                            <!-- Game Stats disguised as files -->
+                            <div class="file-item active">
+                                <i class="fa-brands fa-html5 orange"></i> <span class="label">Score</span> <span class="value" id="score-value">0</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fa-solid fa-trophy" style="color: #ffd700;"></i> <span class="label">High Score</span> <span class="value" id="high-score-value">0</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fa-solid fa-medal" style="color: #4ec9b0;"></i> <span class="label">Rank</span> <span class="value" id="rank-value">Intern</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fa-solid fa-heart" style="color: #f44747;"></i> <span class="label">Health</span> <span class="value" id="health-value">100</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fa-brands fa-js yellow"></i> <span class="label">script.js</span>
+                            </div>
+                            <div class="file-item">
+                                <i class="fa-brands fa-css3-alt blue"></i> <span class="label">style.css</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-header mt-2"><i class="fa-solid fa-angle-down"></i> OUTLINE</div>
+                    <div id="outline-list" class="sidebar-list">
+                        <div class="file-item"><i class="fa-solid fa-cube blue"></i> <span class="label">GameLoop</span></div>
+                        <div class="file-item"><i class="fa-solid fa-cube blue"></i> <span class="label">Player</span></div>
+                        <div class="file-item"><i class="fa-solid fa-cube blue"></i> <span class="label">Obstacles</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-area">
+                <div class="tabs-bar">
+                    <div class="tab active">
+                        <i class="fa-brands fa-html5 orange"></i> index.html <i class="fa-solid fa-xmark close-tab"></i>
+                    </div>
+                    <div class="tab">
+                        <i class="fa-brands fa-js yellow"></i> script.js <i class="fa-solid fa-xmark close-tab"></i>
+                    </div>
+                    <div class="tab">
+                        <i class="fa-brands fa-css3-alt blue"></i> style.css <i class="fa-solid fa-xmark close-tab"></i>
+                    </div>
+                </div>
+                <div class="breadcrumbs">
+                    vscode-stealth-game > <i class="fa-brands fa-html5 orange"></i> index.html
+                </div>
+                <div class="editor-container">
+                    <div class="line-numbers" id="line-numbers">
+                        1
+                    </div>
+                    <div class="editor-content code-area" id="code-editor" tabindex="0" style="position: relative; overflow: hidden; padding: 0;">
+                        <canvas id="gameCanvas" style="display: block; width: 100%; height: 100%;"></canvas>
+                        <div class="combo-meter" id="combo-meter">COMBO x1.0</div>
+                    </div>
+                    <!-- Minimap (Fake) -->
+                    <div class="minimap"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Panel (Terminal) -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="active">PROBLEMS</span>
+                <span>OUTPUT</span>
+                <span>DEBUG CONSOLE</span>
+                <span class="active-tab">TERMINAL</span>
+                <span>PORTS</span>
+                <div style="flex-grow: 1;"></div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-right: 20px;">
+                    <span style="font-size: 11px; color: #cccccc;">Build Status:</span>
+                    <div style="width: 150px; height: 10px; background-color: #3c3c3c; border: 1px solid #3e3e42;">
+                        <div id="health-bar-inner" style="width: 100%; height: 100%; background-color: #4ec9b0; transition: width 0.3s, background-color 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="terminal-content" id="terminal-output">
+                <div class="terminal-line">Windows PowerShell</div>
+                <div class="terminal-line">Copyright (C) Microsoft Corporation. All rights reserved.</div>
+                <div class="terminal-line"><br></div>
+                <div class="terminal-line"><span class="path">PS C:\Users\deoklyongmoon\Desktop\fakevscode></span> <span class="command">npm run dev</span></div>
+                <div class="terminal-line">Starting development server...</div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="left-items">
+                <div class="item"><i class="fa-solid fa-code-branch"></i> main*</div>
+                <div class="item"><i class="fa-solid fa-rotate"></i> 0</div>
+                <div class="item"><i class="fa-solid fa-circle-xmark"></i> 0 <i class="fa-solid fa-triangle-exclamation"></i> 0</div>
+            </div>
+            <div class="right-items">
+                <div class="item">Ln <span id="cursor-line">3</span>, Col <span id="cursor-col">1</span></div>
+                <div class="item">Spaces: 4</div>
+                <div class="item">UTF-8</div>
+                <div class="item">CRLF</div>
+                <div class="item">{ } HTML</div>
+                <div class="item"><i class="fa-regular fa-bell"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification-container" id="notification-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
