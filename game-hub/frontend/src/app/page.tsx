@@ -20,16 +20,16 @@ export default function Home() {
       id: "vscode-stealth",
       title: "VS Code Stealth Runner",
       description: "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
-      thumbnail: "/thumbnails/vscode-stealth.png", 
-      url: "https://vscode-stealth-game-deploy.vercel.app", 
+      thumbnail: "/thumbnails/codedash.png", 
+      url: "https://game1-xi-snowy.vercel.app/", 
       category: "Action"
     },
     {
       id: "neon-racer",
       title: "Neon Racer",
       description: "Navigate data streams and avoid firewalls in this terminal-based racer. Press ESC for stealth mode.",
-      thumbnail: "/thumbnails/neon-racer.png",
-      url: "#",
+      thumbnail: "/thumbnails/02_neon-racer.png",
+      url: "https://hidden-desk-ptvg.vercel.app",
       category: "Racing"
     },
     {

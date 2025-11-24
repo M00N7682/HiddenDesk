@@ -25,11 +25,11 @@ class Game(BaseModel):
 # Mock Database
 games_db = [
     {
-        "id": "vscode-stealth",
-        "title": "VS Code Stealth Runner",
+        "id": "Code-dash",
+        "title": "Code-dash",
         "description": "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
         "thumbnail": "/thumbnails/vscode-stealth.png", 
-        "url": "https://vscode-stealth-game-deploy.vercel.app", 
+        "url": "https://game1-xi-snowy.vercel.app/", 
         "category": "Action"
     },
     {
