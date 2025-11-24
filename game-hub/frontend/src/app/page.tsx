@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,6 +11,58 @@ interface Game {
   url: string;
   category: string;
 }
+
+const translations = {
+  en: {
+    store: "Store",
+    library: "Library",
+    community: "Community",
+    heroTitle: "Play Without Limits",
+    heroDesc: "Discover a curated collection of indie games, stealth runners, and retro classics. Play instantly in your browser.",
+    featured: "Featured Games",
+    all: "All",
+    action: "Action",
+    rpg: "RPG",
+    playNow: "Play Now",
+    comingSoon: "Coming Soon",
+    footer: "© 2025 Hidden Desk. All rights reserved."
+  },
+  ko: {
+    store: "스토어",
+    library: "라이브러리",
+    community: "커뮤니티",
+    heroTitle: "무한한 플레이",
+    heroDesc: "인디 게임, 스텔스 러너, 레트로 고전 게임을 발견하세요. 브라우저에서 즉시 플레이하세요.",
+    featured: "추천 게임",
+    all: "전체",
+    action: "액션",
+    rpg: "RPG",
+    playNow: "플레이 하기",
+    comingSoon: "출시 예정",
+    footer: "© 2025 Hidden Desk. All rights reserved."
+  }
+};
+
+const gameTranslations: Record<string, { ko: { title: string; description: string } }> = {
+  "vscode-stealth": {
+    ko: {
+      title: "VS Code 스텔스 러너",
+      description: "코드 에디터로 위장한 스텔스 게임입니다. 오류를 피하고 버그를 수정하세요!"
+    }
+  },
+  "neon-racer": {
+    ko: {
+      title: "네온 레이서",
+      description: "터미널 기반 레이서에서 데이터 스트림을 탐색하고 방화벽을 피하세요. ESC를 눌러 스텔스 모드로 전환하세요."
+    }
+  },
+  "pixel-quest": {
+    ko: {
+      title: "픽셀 퀘스트",
+      description: "서사적인 8비트 모험이 기다리고 있습니다."
+    }
+  }
+};
 
 export default function Home() {
   // Fallback data in case API fails or is loading
@@ -42,6 +93,15 @@ export default function Home() {
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
+  const [lang, setLang] = useState<'en' | 'ko'>('en');
+  const t = translations[lang];
+
+  const getLocalizedGame = (game: Game) => {
+    if (lang === 'ko' && gameTranslations[game.id]?.ko) {
+      return { ...game, ...gameTranslations[game.id].ko };
+    }
+    return game;
+  };
 
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -67,11 +127,28 @@ export default function Home() {
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl">H</div>
             <h1 className="text-xl font-bold tracking-tight">Hidden Desk</h1>
           </div>
-          <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-400">
-            <a href="#" className="hover:text-white transition-colors">Store</a>
-            <a href="#" className="hover:text-white transition-colors">Library</a>
-            <a href="#" className="hover:text-white transition-colors">Community</a>
-          </nav>
+          
+          <div className="flex items-center gap-6">
+                        <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-400">
+              <a href="#" className="hover:text-white transition-colors">{t.store}</a>
+              <a href="#" className="hover:text-white transition-colors">{t.library}</a>
+              <a href="#" className="hover:text-white transition-colors">{t.community}</a>
+            </nav>
+            
+            {/* Language Toggle */}
+            <div 
+              className="relative w-14 h-7 bg-gray-800 rounded-full cursor-pointer p-1 transition-colors hover:bg-gray-700"
+              onClick={() => setLang(lang === 'en' ? 'ko' : 'en')}
+            >
+              <div 
+                className={`absolute top-1 w-5 h-5 bg-blue-500 rounded-full shadow-md transition-all duration-300 flex items-center justify-center text-[10px] font-bold text-white ${
+                  lang === 'en' ? 'left-1' : 'left-8'
+                }`}
+              >
+                {lang === 'en' ? 'EN' : 'KO'}
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -80,11 +157,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-gray-900 pointer-events-none" />
         <div className="container mx-auto relative z-10 text-center">
           <h2 className="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-            Play Without Limits
+            {t.heroTitle}
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-            Discover a curated collection of indie games, stealth runners, and retro classics.
-            Play instantly in your browser.
+            {t.heroDesc}
           </p>
         </div>
       </section>
@@ -92,11 +168,11 @@ export default function Home() {
       {/* Games Grid */}
       <main className="container mx-auto px-6 pb-20">
         <div className="flex items-center justify-between mb-8">
-          <h3 className="text-2xl font-bold">Featured Games</h3>
+          <h3 className="text-2xl font-bold">{t.featured}</h3>
           <div className="flex gap-2">
-            <span className="px-3 py-1 rounded-full bg-gray-800 text-xs font-medium text-gray-300 cursor-pointer hover:bg-gray-700">All</span>
-            <span className="px-3 py-1 rounded-full bg-gray-800/50 text-xs font-medium text-gray-500 cursor-pointer hover:bg-gray-700">Action</span>
-            <span className="px-3 py-1 rounded-full bg-gray-800/50 text-xs font-medium text-gray-500 cursor-pointer hover:bg-gray-700">RPG</span>
+            <span className="px-3 py-1 rounded-full bg-gray-800 text-xs font-medium text-gray-300 cursor-pointer hover:bg-gray-700">{t.all}</span>
+            <span className="px-3 py-1 rounded-full bg-gray-800/50 text-xs font-medium text-gray-500 cursor-pointer hover:bg-gray-700">{t.action}</span>
+            <span className="px-3 py-1 rounded-full bg-gray-800/50 text-xs font-medium text-gray-500 cursor-pointer hover:bg-gray-700">{t.rpg}</span>
           </div>
         </div>
 
@@ -108,36 +184,39 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {games.map((game) => (
-              <div key={game.id} className="group bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-gray-500 transition-all hover:shadow-2xl hover:-translate-y-1">
-                <div className="relative h-48 w-full bg-gray-700 overflow-hidden">
-                  <Image
-                      src={game.thumbnail}
-                      alt={game.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-white">
-                    {game.category}
+            {games.map((game) => {
+              const localizedGame = getLocalizedGame(game);
+              return (
+                <div key={localizedGame.id} className="group bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-gray-500 transition-all hover:shadow-2xl hover:-translate-y-1">
+                  <div className="relative h-48 w-full bg-gray-700 overflow-hidden">
+                    <Image
+                        src={localizedGame.thumbnail}
+                        alt={localizedGame.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-white">
+                      {localizedGame.category}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h4 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{localizedGame.title}</h4>
+                    <p className="text-gray-400 text-sm mb-6 line-clamp-2">{localizedGame.description}</p>
+                    <a 
+                      href={localizedGame.url} 
+                      target="_blank"
+                      className={`block w-full py-3 rounded-lg text-center font-bold transition-colors ${
+                          localizedGame.url === "#" 
+                          ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                          : "bg-blue-600 hover:bg-blue-500 text-white"
+                      }`}
+                    >
+                      {localizedGame.url === "#" ? t.comingSoon : t.playNow}
+                    </a>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{game.title}</h4>
-                  <p className="text-gray-400 text-sm mb-6 line-clamp-2">{game.description}</p>
-                  <a 
-                    href={game.url} 
-                    target="_blank"
-                    className={`block w-full py-3 rounded-lg text-center font-bold transition-colors ${
-                        game.url === "#" 
-                        ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
-                        : "bg-blue-600 hover:bg-blue-500 text-white"
-                    }`}
-                  >
-                    {game.url === "#" ? "Coming Soon" : "Play Now"}
-                  </a>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </main>
@@ -145,7 +224,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-800 bg-gray-950 py-12">
         <div className="container mx-auto px-6 text-center text-gray-500 text-sm">
-          <p>&copy; 2025 Hidden Desk. All rights reserved.</p>
+          <p>{t.footer}</p>
         </div>
       </footer>
     </div>
