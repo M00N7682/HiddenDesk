@@ -1,0 +1,544 @@
+:root {
+    --bg-color: #1e1e1e;
+    --sidebar-bg: #252526;
+    --activity-bar-bg: #333333;
+    --title-bar-bg: #3c3c3c; /* Standard VS Code Title Bar */
+    --status-bar-bg: #007acc;
+    --panel-bg: #1e1e1e;
+    --border-color: #3e3e42; /* Slightly lighter border */
+    --text-color: #cccccc;
+    --accent-color: #007acc;
+    --hover-bg: #2a2d2e;
+    --selection-bg: #37373d; /* List selection */
+    --tab-inactive-bg: #2d2d2d;
+    
+    /* Syntax Highlighting */
+    --code-keyword: #569cd6;
+    --code-variable: #9cdcfe;
+    --code-string: #ce9178;
+    --code-comment: #6a9955;
+    --code-class: #4ec9b0;
+    --code-function: #dcdcaa;
+    --code-number: #b5cea8;
+    --code-tag: #808080; /* HTML tags */
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none; 
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Title Bar */
+.title-bar {
+    height: 30px;
+    background-color: var(--title-bar-bg);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 12px;
+    -webkit-app-region: drag; /* If this were an electron app */
+}
+
+.title-icon {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-bar {
+    display: flex;
+    font-size: 13px;
+}
+
+.menu-bar span {
+    padding: 0 8px;
+    cursor: pointer;
+    color: #cccccc;
+}
+
+.menu-bar span:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.title-text {
+    flex-grow: 1;
+    text-align: center;
+    color: #cccccc;
+    font-size: 12px;
+}
+
+.window-controls {
+    display: flex;
+    height: 100%;
+}
+
+.window-controls .control {
+    width: 46px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.window-controls .control:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.window-controls .control.close:hover {
+    background-color: #e81123;
+    color: white;
+}
+
+/* Main Body */
+.main-body {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Activity Bar */
+.activity-bar {
+    width: 48px;
+    background-color: var(--activity-bar-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+}
+
+.action-item {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #858585;
+    font-size: 24px;
+    border-left: 2px solid transparent;
+    opacity: 0.6;
+}
+
+.action-item.active {
+    color: #fff;
+    border-left-color: #fff;
+    opacity: 1;
+}
+
+.action-item:hover {
+    color: #fff;
+    opacity: 1;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color); /* Actually VS Code usually doesn't have a strong border here in dark theme, but let's keep it subtle */
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+}
+
+.sidebar-title {
+    padding: 10px 20px;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #bbbbbb;
+    height: 35px;
+}
+
+.sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.section-header {
+    padding: 4px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #cccccc;
+    font-size: 11px;
+}
+
+.section-header:hover {
+    background-color: var(--hover-bg);
+}
+
+.section-header i {
+    font-size: 10px;
+}
+
+.folder-item {
+    /* padding-left: 10px; */
+}
+
+.folder-header {
+    padding: 3px 20px 3px 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #cccccc;
+}
+
+.folder-header:hover {
+    background-color: var(--hover-bg);
+}
+
+.folder-header i {
+    font-size: 10px;
+}
+
+.folder-content {
+    /* padding-left: 10px; */
+}
+
+.file-item {
+    padding: 3px 20px 3px 48px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #cccccc;
+}
+
+.file-item:hover {
+    background-color: var(--hover-bg);
+}
+
+.file-item.active {
+    background-color: var(--selection-bg);
+    color: #fff;
+}
+
+.file-item .label {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-item .value {
+    color: var(--code-number);
+    font-size: 0.9em;
+}
+
+.yellow { color: #f1e05a; }
+.blue { color: #519aba; }
+.orange { color: #e34c26; }
+.green { color: var(--code-comment); }
+
+/* Editor Area */
+.editor-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+}
+
+.tabs-bar {
+    height: 35px;
+    background-color: var(--sidebar-bg); /* Tab well background */
+    display: flex;
+    overflow-x: auto;
+}
+
+.tab {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--tab-inactive-bg);
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+    min-width: 120px;
+    max-width: 200px;
+    color: #969696;
+    font-size: 13px;
+}
+
+.tab.active {
+    background-color: var(--bg-color);
+    border-top: 1px solid var(--accent-color);
+    color: #fff;
+}
+
+.close-tab {
+    margin-left: auto;
+    font-size: 12px;
+    opacity: 0;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.tab:hover .close-tab {
+    opacity: 1;
+}
+
+.close-tab:hover {
+    background-color: #444;
+}
+
+.breadcrumbs {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    font-size: 13px;
+    color: #999;
+    background-color: var(--bg-color);
+}
+
+.editor-container {
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.editor-content {
+    flex-grow: 1;
+    display: flex;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-y: auto;
+    cursor: text;
+    outline: none;
+}
+
+.line-numbers {
+    width: 60px;
+    text-align: right;
+    padding-right: 20px;
+    color: #858585;
+    padding-top: 10px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.code-layer {
+    padding-top: 10px;
+    padding-left: 10px;
+    color: var(--text-color);
+    white-space: pre;
+}
+
+/* Syntax Highlighting Classes */
+.keyword { color: var(--code-keyword); }
+.variable { color: var(--code-variable); }
+.string { color: var(--code-string); }
+.comment { color: var(--code-comment); }
+.class { color: var(--code-class); }
+.function { color: var(--code-function); }
+.number { color: var(--code-number); }
+.tag { color: var(--code-tag); }
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: #fff;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-top: 14px; /* Align with first line */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Minimap */
+.minimap {
+    width: 60px;
+    background-color: var(--bg-color);
+    opacity: 0.5;
+    border-left: 1px solid #333;
+}
+
+/* Panel (Terminal) */
+.panel {
+    height: 180px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--panel-bg);
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    display: flex;
+    gap: 25px;
+    padding: 8px 20px;
+    font-size: 11px;
+    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.panel-header span {
+    cursor: pointer;
+    color: #969696;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+}
+
+.panel-header span:hover {
+    color: #e7e7e7;
+}
+
+.panel-header span.active-tab {
+    color: #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.terminal-content {
+    flex-grow: 1;
+    padding: 10px 20px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    overflow-y: auto;
+}
+
+.terminal-line {
+    margin-bottom: 2px;
+}
+
+.path { color: #b5cea8; }
+.command { color: #dcdcaa; }
+
+/* Status Bar */
+.status-bar {
+    height: 22px;
+    background-color: var(--status-bar-bg);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    cursor: default;
+}
+
+.left-items, .right-items {
+    display: flex;
+    gap: 15px;
+}
+
+.item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #424242;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4f4f4f;
+}
+
+/* Upgrade Item Styling - Disguised as NPM Scripts */
+.sidebar-list {
+    padding-top: 5px;
+}
+
+.upgrade-item {
+    padding: 4px 20px 4px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cccccc;
+    font-size: 12px;
+}
+
+.upgrade-item:hover {
+    background-color: var(--hover-bg);
+}
+
+.upgrade-item.can-buy {
+    opacity: 1;
+}
+
+.upgrade-item.cannot-buy {
+    opacity: 0.5;
+}
+
+.upgrade-icon {
+    width: 16px;
+    text-align: center;
+    color: #858585;
+}
+
+.upgrade-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.upgrade-name {
+    font-weight: normal;
+}
+
+.upgrade-cost {
+    color: #858585;
+    font-size: 0.9em;
+    margin-left: auto;
+}
+
+.upgrade-desc {
+    display: none; /* Hide description to look cleaner, maybe show on hover tooltip? */
+}
+
+.mt-2 {
+    margin-top: 10px;
+}
