@@ -33,9 +33,9 @@ games_db = [
         "category": "Action"
     },
     {
-        "id": "coming-soon-1",
+        "id": "neon-racer",
         "title": "Neon Racer",
-        "description": "Cyberpunk racing game coming soon.",
+        "description": "Navigate data streams and avoid firewalls in this terminal-based racer. Press ESC for stealth mode.",
         "thumbnail": "/thumbnails/neon-racer.png",
         "url": "#",
         "category": "Racing"

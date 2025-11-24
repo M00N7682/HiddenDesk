@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Diagnostics Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="header">
+            <span class="prompt">admin@sys-diag:~$</span> ./run_network_test.sh --speed-mode
+        </div>
+        <div id="game-area" class="game-area">
+            <!-- Game content will be rendered here -->
+            <div id="start-screen">
+                <p>NETWORK LATENCY TEST v2.4.1</p>
+                <p>-----------------------------</p>
+                <p>[STATUS] READY</p>
+                <p>[INSTRUCTION] Use LEFT/RIGHT arrows to route packet.</p>
+                <p>[INSTRUCTION] Avoid FIREWALLS [ # ].</p>
+                <p>[STEALTH] Press 'ESC' to simulate log output.</p>
+                <br>
+                <p class="blink">Press ENTER to initialize stream...</p>
+            </div>
+            <div id="game-over-screen" class="hidden">
+                <p class="error">[ERROR] PACKET LOSS DETECTED</p>
+                <p>Connection terminated.</p>
+                <p>Score: <span id="final-score">0</span> bytes</p>
+                <br>
+                <p class="blink">Press ENTER to retry...</p>
+            </div>
+            <div id="stealth-screen" class="hidden">
+                <div id="log-output"></div>
+            </div>
+            <pre id="game-canvas"></pre>
+            <div id="hud" class="hidden">
+                <span>BANDWIDTH: <span id="score">0</span> Mbps</span> | 
+                <span>INTEGRITY: <span id="health">100</span>%</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
