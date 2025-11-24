@@ -21,7 +21,7 @@ export default function Home() {
       title: "VS Code Stealth Runner",
       description: "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
       thumbnail: "https://placehold.co/600x400/007acc/ffffff?text=VS+Code+Stealth", 
-      url: "https://vercel.com/m00ns-projects-e04cc007/game1", // Placeholder for separate deployment
+      url: "https://game1-xi-snowy.vercel.app/", // Placeholder for separate deployment
       category: "Action"
     },
     {
