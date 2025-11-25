@@ -37,7 +37,7 @@ games_db = [
         "title": "Neon Racer",
         "description": "Navigate data streams and avoid firewalls in this terminal-based racer. Press ESC for stealth mode.",
         "thumbnail": "/thumbnails/neon-racer.png",
-        "url": "#",
+        "url": "https://hidden-desk-ptvg.vercel.app",
         "category": "Racing"
     },
     {
@@ -45,7 +45,7 @@ games_db = [
         "title": "Pixel Quest",
         "description": "Defend your canvas from glitch pixels in this paint-tool disguised RPG. Press ESC to switch to work mode.",
         "thumbnail": "/thumbnails/pixel-quest.png",
-        "url": "#",
+        "url": "https://hidden-desk-9hye.vercel.app/",
         "category": "RPG"
     }
 ]
