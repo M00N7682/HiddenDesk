@@ -10,6 +10,7 @@ interface Game {
   thumbnail: string;
   url: string;
   category: string;
+  instructions?: string;
 }
 
 const translations = {
@@ -25,7 +26,10 @@ const translations = {
     rpg: "RPG",
     playNow: "Play Now",
     comingSoon: "Coming Soon",
-    footer: "© 2025 Hidden Desk. All rights reserved."
+    footer: "© 2025 Hidden Desk. All rights reserved.",
+    startGame: "Start Game",
+    cancel: "Cancel",
+    instructions: "Instructions"
   },
   ko: {
     store: "스토어",
@@ -39,39 +43,47 @@ const translations = {
     rpg: "RPG",
     playNow: "플레이 하기",
     comingSoon: "출시 예정",
-    footer: "© 2025 Hidden Desk. All rights reserved."
+    footer: "© 2025 Hidden Desk. All rights reserved.",
+    startGame: "게임 시작",
+    cancel: "취소",
+    instructions: "게임 방법"
   }
 };
 
-const gameTranslations: Record<string, { ko: { title: string; description: string } }> = {
+const gameTranslations: Record<string, { ko: { title: string; description: string; instructions?: string } }> = {
   "vscode-stealth": {
     ko: {
       title: "Code Dash",
-      description: "VSCode로 위장한 스텔스 게임입니다. 오류를 피하고 버그를 수정하세요!"
+      description: "VSCode로 위장한 스텔스 게임입니다. 오류를 피하고 버그를 수정하세요!",
+      instructions: "방향키로 이동하여 버그를 피하세요. ESC를 눌러 코딩 모드로 전환하세요."
     }
   },
   "neon-racer": {
     ko: {
       title: "네온 레이서",
-      description: "터미널 레이서에서 데이터 스트림을 탐색하고 방화벽을 피하세요. ESC를 눌러 스텔스 모드로 전환하세요."
+      description: "터미널 레이서에서 데이터 스트림을 탐색하고 방화벽을 피하세요. ESC를 눌러 스텔스 모드로 전환하세요.",
+      instructions: "방향키로 이동하여 방화벽을 피하세요. ESC를 눌러 터미널 모드로 전환하세요."
     }
   },
   "pixel-quest": {
     ko: {
       title: "픽셀 퀘스트",
-      description: "그림판으로 위장한 RPG에서 글리치 픽셀로부터 캔버스를 방어하세요. ESC를 눌러 업무 모드로 전환하세요."
+      description: "그림판으로 위장한 RPG에서 글리치 픽셀로부터 캔버스를 방어하세요. ESC를 눌러 업무 모드로 전환하세요.",
+      instructions: "방향키로 이동하고 스페이스바로 공격하세요. ESC를 눌러 그림판 모드로 전환하세요."
     }
   },
   "cell-invaders": {
     ko: {
       title: "셀 인베이더",
-      description: "스프레드시트 슈팅 게임에서 에러 코드를 제거하세요. 완벽한 업무 위장. ESC를 눌러 차트 모드로 전환하세요."
+      description: "스프레드시트 슈팅 게임에서 에러 코드를 제거하세요. 완벽한 업무 위장. ESC를 눌러 차트 모드로 전환하세요.",
+      instructions: "방향키로 이동하고 스페이스바로 공격하세요. ESC를 눌러 엑셀 모드로 전환하세요."
     }
   },
   "paper-reader": {
     ko: {
       title: "논문 리더",
-      description: "PDF 테마의 러닝 게임에서 핵심 용어를 강조하고 오타를 피하세요. ESC를 눌러 초록 보기로 전환하세요."
+      description: "PDF 테마의 러닝 게임에서 핵심 용어를 강조하고 오타를 피하세요. ESC를 눌러 초록 보기로 전환하세요.",
+      instructions: "방향키로 형광펜을 조종하여 파란색 핵심 용어를 연결하세요. 벽이나 꼬리에 부딪히지 마세요. ESC를 눌러 논문 모드로 전환하세요."
     }
   }
 };
@@ -85,7 +97,8 @@ export default function Home() {
       description: "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
       thumbnail: "/thumbnails/codedash.png", 
       url: "https://game1-xi-snowy.vercel.app/", 
-      category: "Action"
+      category: "Action",
+      instructions: "Use Arrow keys to move. Avoid bugs. Fix errors. Press ESC for stealth mode."
     },
     {
       id: "neon-racer",
@@ -93,7 +106,8 @@ export default function Home() {
       description: "Navigate data streams and avoid firewalls in this terminal-based racer. Press ESC for stealth mode.",
       thumbnail: "/thumbnails/02_neon-racer.png",
       url: "https://hidden-desk-ptvg.vercel.app",
-      category: "Racing"
+      category: "Racing",
+      instructions: "Use Arrow keys to steer. Avoid firewalls. Press ESC for stealth mode."
     },
     {
       id: "pixel-quest",
@@ -101,15 +115,17 @@ export default function Home() {
       description: "Defend your canvas from glitch pixels in this paint-tool disguised RPG. Press ESC to switch to work mode.",
       thumbnail: "/thumbnails/pixel-quest.png",
       url: "https://hidden-desk-9hye.vercel.app/",
-      category: "RPG"
+      category: "RPG",
+      instructions: "Use Arrow keys to move. Space to shoot/interact. Press ESC for stealth mode."
     },
     {
       id: "cell-invaders",
       title: "Cell Invaders",
       description: "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
       thumbnail: "/thumbnails/cell-invaders.png",
-      url: "#",
-      category: "Shooter"
+      url: "https://cellinvader.vercel.app/",
+      category: "Shooter",
+      instructions: "Use Arrow keys to move. Space to shoot. Press ESC for stealth mode."
     },
     {
       id: "paper-reader",
@@ -117,11 +133,13 @@ export default function Home() {
       description: "Highlight key terms and avoid typos in this PDF-themed runner. Press ESC for abstract view.",
       thumbnail: "/thumbnails/paper-reader.png",
       url: "https://paperreader.vercel.app/",
-      category: "Runner"
+      category: "Runner",
+      instructions: "Use Arrow keys to guide the highlighter. Connect blue key terms. Avoid walls and tail. Press ESC for stealth mode."
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
   const [lang, setLang] = useState<'en' | 'ko'>('en');
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const t = translations[lang];
 
   const getLocalizedGame = (game: Game) => {
@@ -238,9 +256,12 @@ export default function Home() {
                   <div className="p-6">
                     <h4 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{localizedGame.title}</h4>
                     <p className="text-gray-400 text-sm mb-6 line-clamp-2">{localizedGame.description}</p>
-                    <a 
-                      href={localizedGame.url} 
-                      target="_blank"
+                    <button 
+                      onClick={() => {
+                        if (localizedGame.url !== "#") {
+                          setSelectedGame(localizedGame);
+                        }
+                      }}
                       className={`block w-full py-3 rounded-lg text-center font-bold transition-colors ${
                           localizedGame.url === "#" 
                           ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
@@ -248,7 +269,7 @@ export default function Home() {
                       }`}
                     >
                       {localizedGame.url === "#" ? t.comingSoon : t.playNow}
-                    </a>
+                    </button>
                   </div>
                 </div>
               );
@@ -256,6 +277,57 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* Game Instructions Modal */}
+      {selectedGame && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-gray-800 rounded-2xl max-w-lg w-full p-8 shadow-2xl border border-gray-700 relative">
+            <button 
+              onClick={() => setSelectedGame(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white"
+            >
+              ✕
+            </button>
+            
+            <div className="flex flex-col items-center text-center mb-6">
+              <div className="relative w-24 h-24 rounded-xl overflow-hidden mb-4 shadow-lg">
+                <Image 
+                  src={selectedGame.thumbnail} 
+                  alt={selectedGame.title} 
+                  fill 
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">{selectedGame.title}</h3>
+              <p className="text-gray-400 text-sm">{selectedGame.description}</p>
+            </div>
+
+            <div className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-700/50">
+              <h4 className="text-sm font-bold text-blue-400 uppercase tracking-wider mb-3">{t.instructions}</h4>
+              <p className="text-gray-300 leading-relaxed">
+                {selectedGame.instructions || "No instructions available."}
+              </p>
+            </div>
+
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setSelectedGame(null)}
+                className="flex-1 py-3 rounded-lg font-bold bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+              >
+                {t.cancel}
+              </button>
+              <a 
+                href={selectedGame.url} 
+                target="_blank"
+                onClick={() => setSelectedGame(null)}
+                className="flex-1 py-3 rounded-lg font-bold bg-blue-600 hover:bg-blue-500 text-white text-center transition-colors"
+              >
+                {t.startGame}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="border-t border-gray-800 bg-gray-950 py-12">
