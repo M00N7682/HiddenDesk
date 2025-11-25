@@ -47,6 +47,14 @@ games_db = [
         "thumbnail": "/thumbnails/pixel-quest.png",
         "url": "https://hidden-desk-9hye.vercel.app/",
         "category": "RPG"
+    },
+    {
+        "id": "cell-invaders",
+        "title": "Cell Invaders",
+        "description": "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
+        "thumbnail": "/thumbnails/cell-invaders.png",
+        "url": "#",
+        "category": "Shooter"
     }
 ]
 

@@ -1,0 +1,259 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #217346; /* Excel Green */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.excel-container {
+    width: 95%;
+    height: 90%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* Ribbon */
+.ribbon {
+    background-color: #217346;
+    color: white;
+    display: flex;
+    padding: 5px 10px 0 10px;
+    font-size: 12px;
+}
+
+.ribbon-tab {
+    padding: 8px 15px;
+    cursor: pointer;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.ribbon-tab.active {
+    background-color: #fff;
+    color: #217346;
+}
+
+.toolbar {
+    background-color: #f3f2f1;
+    padding: 10px;
+    border-bottom: 1px solid #e1dfdd;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.tool-group {
+    display: flex;
+    gap: 5px;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+
+button {
+    border: 1px solid transparent;
+    background: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+button:hover {
+    background-color: #c6c6c6;
+    border-color: #b0b0b0;
+}
+
+.formula-bar {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 10px;
+}
+
+.name-box {
+    width: 50px;
+    border: 1px solid #ccc;
+    background: white;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+.fx-icon {
+    color: #666;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.formula-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+    font-family: monospace;
+}
+
+/* Spreadsheet */
+.spreadsheet {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: 25px 1fr;
+    overflow: hidden;
+    position: relative;
+}
+
+.corner-header {
+    background-color: #f3f2f1;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.col-headers {
+    background-color: #f3f2f1;
+    display: flex;
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+}
+
+.col-header {
+    flex: 1;
+    border-right: 1px solid #ccc;
+    text-align: center;
+    line-height: 25px;
+    font-size: 12px;
+    color: #666;
+}
+
+.row-headers {
+    background-color: #f3f2f1;
+    border-right: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.row-header {
+    height: 25px; /* Match grid cell height */
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    line-height: 25px;
+    font-size: 12px;
+    color: #666;
+}
+
+.grid-container {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+#game-canvas {
+    display: block;
+}
+
+/* Overlays */
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 2px solid #217346;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+.overlay h1 {
+    color: #217346;
+    margin-top: 0;
+}
+
+#start-btn, #restart-btn {
+    background-color: #217346;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 0;
+}
+
+#start-btn:hover, #restart-btn:hover {
+    background-color: #1e6b41;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Footer */
+.sheet-tabs {
+    background-color: #f3f2f1;
+    display: flex;
+    padding-left: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.sheet-tab {
+    padding: 5px 15px;
+    background-color: #e1dfdd;
+    border-right: 1px solid #ccc;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.sheet-tab.active {
+    background-color: #fff;
+    color: #217346;
+    font-weight: bold;
+    border-bottom: 2px solid #217346;
+}
+
+.status-bar {
+    background-color: #217346;
+    color: white;
+    padding: 2px 10px;
+    font-size: 11px;
+    display: flex;
+    gap: 20px;
+}
+
+/* Stealth Chart */
+#stealth-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container {
+    width: 600px;
+    height: 400px;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.chart-placeholder {
+    height: 300px;
+    border-left: 2px solid #333;
+    border-bottom: 2px solid #333;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding-bottom: 5px;
+}
+
+.bar {
+    width: 40px;
+    background-color: #4472c4;
+}

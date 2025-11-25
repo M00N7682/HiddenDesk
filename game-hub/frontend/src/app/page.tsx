@@ -61,6 +61,12 @@ const gameTranslations: Record<string, { ko: { title: string; description: strin
       title: "픽셀 퀘스트",
       description: "그림판으로 위장한 RPG에서 글리치 픽셀로부터 캔버스를 방어하세요. ESC를 눌러 업무 모드로 전환하세요."
     }
+  },
+  "cell-invaders": {
+    ko: {
+      title: "셀 인베이더",
+      description: "스프레드시트 슈팅 게임에서 에러 코드를 제거하세요. 완벽한 업무 위장. ESC를 눌러 차트 모드로 전환하세요."
+    }
   }
 };
 
@@ -90,6 +96,14 @@ export default function Home() {
       thumbnail: "/thumbnails/pixel-quest.png",
       url: "https://hidden-desk-9hye.vercel.app/",
       category: "RPG"
+    },
+    {
+      id: "cell-invaders",
+      title: "Cell Invaders",
+      description: "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
+      thumbnail: "/thumbnails/cell-invaders.png",
+      url: "#",
+      category: "Shooter"
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
