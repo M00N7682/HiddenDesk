@@ -31,8 +31,10 @@ let level = 1;
 let playerCol = 4; // Start in middle
 let enemies = [];
 let projectiles = [];
+let powerups = []; // New: Powerups array
 let gameLoopId;
-let spawnInterval;
+let lastSpawnTime = 0; // New: For dynamic spawning
+let spawnInterval = 2000;
 
 // Init Headers
 const colHeaders = document.getElementById('col-headers');
@@ -99,19 +101,17 @@ function startGame() {
     playerCol = Math.floor(COLS / 2);
     enemies = [];
     projectiles = [];
+    powerups = [];
+    lastSpawnTime = performance.now();
     
     updateUI();
     updateSelection();
-    gameLoop();
-    
-    clearInterval(spawnInterval);
-    spawnInterval = setInterval(spawnEnemy, 2000);
+    gameLoop(performance.now());
 }
 
 function gameOver() {
     isPlaying = false;
     cancelAnimationFrame(gameLoopId);
-    clearInterval(spawnInterval);
     finalScoreEl.innerText = score;
     gameOverScreen.classList.remove('hidden');
 }
@@ -120,14 +120,54 @@ function spawnEnemy() {
     if (!isPlaying || isStealth) return;
     
     const col = Math.floor(Math.random() * COLS);
-    const types = ['#REF!', '#DIV/0!', '#VALUE!', '#NAME?', '#NULL!'];
-    const type = types[Math.floor(Math.random() * types.length)];
+    const rand = Math.random();
+    
+    let type = 'normal';
+    let text = '#REF!';
+    let hp = 1;
+    let speed = 0.5 + (level * 0.1);
+    let color = '#c00000';
+
+    // 5% chance for Powerup (AutoSum)
+    if (Math.random() < 0.05) {
+        powerups.push({
+            col: Math.floor(Math.random() * COLS),
+            y: 0,
+            text: '∑',
+            type: 'autosum',
+            speed: 1.5
+        });
+        return; // Don't spawn enemy this time
+    }
+
+    if (level > 2 && rand < 0.2) {
+        // Tank Enemy (20% chance after level 2)
+        type = 'tank';
+        text = 'CIRCULAR!';
+        hp = 3;
+        speed = 0.3 + (level * 0.05);
+        color = '#800000'; // Darker red
+    } else if (level > 4 && rand > 0.8) {
+        // Fast Enemy (20% chance after level 4)
+        type = 'fast';
+        text = '#####';
+        hp = 1;
+        speed = 1.0 + (level * 0.15);
+    } else {
+        // Normal Enemy
+        const types = ['#REF!', '#DIV/0!', '#VALUE!', '#NAME?', '#NULL!'];
+        text = types[Math.floor(Math.random() * types.length)];
+    }
     
     enemies.push({
         col: col,
-        y: 0, // Pixel y position
-        text: type,
-        speed: 0.5 + (level * 0.1)
+        y: 0,
+        text: text,
+        type: type,
+        hp: hp,
+        maxHp: hp,
+        speed: speed,
+        color: color
     });
 }
 
@@ -139,8 +179,36 @@ function shoot() {
     });
 }
 
-function update() {
+function activatePowerup(type) {
+    if (type === 'autosum') {
+        // Clear all enemies
+        score += enemies.length * 50;
+        enemies = [];
+        // Visual feedback
+        const flash = document.createElement('div');
+        flash.style.position = 'absolute';
+        flash.style.top = '0';
+        flash.style.left = '0';
+        flash.style.width = '100%';
+        flash.style.height = '100%';
+        flash.style.backgroundColor = 'rgba(33, 115, 70, 0.3)'; // Excel Green
+        flash.style.pointerEvents = 'none';
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 200);
+        updateUI();
+    }
+}
+
+function update(timestamp) {
     if (isStealth) return;
+
+    // Dynamic Spawning
+    const currentSpawnRate = Math.max(500, 2000 - ((level - 1) * 150));
+    
+    if (timestamp - lastSpawnTime > currentSpawnRate) {
+        spawnEnemy();
+        lastSpawnTime = timestamp;
+    }
 
     // Update Projectiles
     for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -152,17 +220,45 @@ function update() {
             continue;
         }
         
-        // Collision
-        for (let j = enemies.length - 1; j >= 0; j--) {
-            let e = enemies[j];
-            // Check column match and y overlap
-            if (p.col === e.col && Math.abs(p.y - e.y) < CELL_HEIGHT) {
-                enemies.splice(j, 1);
+        let hit = false;
+
+        // Check Powerups (Shoot to activate)
+        for (let k = powerups.length - 1; k >= 0; k--) {
+            let pu = powerups[k];
+            if (p.col === pu.col && Math.abs(p.y - pu.y) < CELL_HEIGHT) {
+                activatePowerup(pu.type);
+                powerups.splice(k, 1);
                 projectiles.splice(i, 1);
-                score += 10;
-                updateUI();
+                hit = true;
                 break;
             }
+        }
+        if (hit) continue;
+
+        // Collision with Enemies
+        for (let j = enemies.length - 1; j >= 0; j--) {
+            let e = enemies[j];
+            if (p.col === e.col && Math.abs(p.y - e.y) < CELL_HEIGHT) {
+                e.hp--;
+                projectiles.splice(i, 1);
+                hit = true;
+                
+                if (e.hp <= 0) {
+                    enemies.splice(j, 1);
+                    score += (e.type === 'tank' ? 30 : 10);
+                    updateUI();
+                }
+                break;
+            }
+        }
+    }
+
+    // Update Powerups
+    for (let i = powerups.length - 1; i >= 0; i--) {
+        let pu = powerups[i];
+        pu.y += pu.speed;
+        if (pu.y > (ROWS - 1) * CELL_HEIGHT) {
+            powerups.splice(i, 1);
         }
     }
 
@@ -180,7 +276,7 @@ function update() {
     }
 
     // Level up
-    if (score > level * 100) {
+    if (score > level * 200) {
         level++;
         updateUI();
     }
@@ -216,18 +312,30 @@ function draw() {
     ctx.lineWidth = 3;
     ctx.strokeRect(playerCol * CELL_WIDTH, (ROWS - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
     
+    // Draw Powerups
+    ctx.font = 'bold 16px Calibri';
+    ctx.fillStyle = '#217346'; // Excel Green
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    powerups.forEach(pu => {
+        ctx.fillText(pu.text, (pu.col * CELL_WIDTH) + (CELL_WIDTH / 2), pu.y + (CELL_HEIGHT / 2));
+    });
+
     // Draw Enemies
-    ctx.font = '12px Calibri';
-    ctx.fillStyle = '#c00000'; // Error Red
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
     enemies.forEach(e => {
+        ctx.fillStyle = e.color || '#c00000';
+        if (e.type === 'tank') ctx.font = 'bold 12px Calibri';
+        else ctx.font = '12px Calibri';
+        
         ctx.fillText(e.text, (e.col * CELL_WIDTH) + (CELL_WIDTH / 2), e.y + (CELL_HEIGHT / 2));
     });
 
     // Draw Projectiles
     ctx.fillStyle = '#000';
+    ctx.font = '12px Calibri';
     projectiles.forEach(p => {
         ctx.fillText(p.text, (p.col * CELL_WIDTH) + (CELL_WIDTH / 2), p.y + (CELL_HEIGHT / 2));
     });
@@ -239,9 +347,9 @@ function updateUI() {
     healthDisplay.innerText = health;
 }
 
-function gameLoop() {
+function gameLoop(timestamp) {
     if (!isPlaying) return;
-    update();
+    update(timestamp);
     draw();
     gameLoopId = requestAnimationFrame(gameLoop);
 }

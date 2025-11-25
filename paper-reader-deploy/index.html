@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer - analysis_final_v2.pdf</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="pdf-container">
+        <!-- Fake Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <span class="icon">☰</span>
+                <span class="title">analysis_final_v2.pdf</span>
+            </div>
+            <div class="toolbar-center">
+                <span class="page-num">1 / 142</span>
+                <span class="zoom">100%</span>
+            </div>
+            <div class="toolbar-right">
+                <span class="icon">⬇️</span>
+                <span class="icon">🖨️</span>
+                <span class="icon">⋮</span>
+            </div>
+        </div>
+
+        <!-- Game Area (The Paper) -->
+        <div class="document-area">
+            <div class="paper-sheet">
+                <div id="game-ui" class="game-ui">
+                    <div class="stats">
+                        <div>Citations: <span id="score">0</span></div>
+                        <div>Impact Factor: <span id="health">10.0</span></div>
+                    </div>
+                    <div id="start-screen" class="overlay">
+                        <h1>Research Rush</h1>
+                        <p>Use Arrow Keys to highlight key terms.</p>
+                        <p>Avoid typos and rejections.</p>
+                        <p>Press <strong>SPACE</strong> to Start</p>
+                        <p class="stealth-hint">Press <strong>ESC</strong> for Stealth Mode</p>
+                    </div>
+                    <div id="game-over-screen" class="overlay hidden">
+                        <h1>Paper Rejected</h1>
+                        <p>Final Citations: <span id="final-score">0</span></p>
+                        <button id="restart-btn">Resubmit</button>
+                    </div>
+                </div>
+                <canvas id="game-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stealth Overlay (Boring Abstract) -->
+    <div id="stealth-overlay" class="stealth-overlay hidden">
+        <div class="paper-sheet static-paper">
+            <h2>Abstract</h2>
+            <p class="abstract-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <p class="abstract-text">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+            </p>
+            <div class="chart-placeholder">
+                [Figure 1: Statistical Analysis of Nothing]
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

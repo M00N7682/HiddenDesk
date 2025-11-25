@@ -67,6 +67,12 @@ const gameTranslations: Record<string, { ko: { title: string; description: strin
       title: "셀 인베이더",
       description: "스프레드시트 슈팅 게임에서 에러 코드를 제거하세요. 완벽한 업무 위장. ESC를 눌러 차트 모드로 전환하세요."
     }
+  },
+  "paper-reader": {
+    ko: {
+      title: "논문 리더",
+      description: "PDF 테마의 러닝 게임에서 핵심 용어를 강조하고 오타를 피하세요. ESC를 눌러 초록 보기로 전환하세요."
+    }
   }
 };
 
@@ -104,6 +110,14 @@ export default function Home() {
       thumbnail: "/thumbnails/cell-invaders.png",
       url: "#",
       category: "Shooter"
+    },
+    {
+      id: "paper-reader",
+      title: "Paper Reader",
+      description: "Highlight key terms and avoid typos in this PDF-themed runner. Press ESC for abstract view.",
+      thumbnail: "/thumbnails/paper-reader.png",
+      url: "#",
+      category: "Runner"
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately

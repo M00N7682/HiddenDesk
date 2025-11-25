@@ -53,8 +53,16 @@ games_db = [
         "title": "Cell Invaders",
         "description": "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
         "thumbnail": "/thumbnails/cell-invaders.png",
-        "url": "#",
+        "url": "https://cellinvader.vercel.app/",
         "category": "Shooter"
+    },
+    {
+        "id": "paper-reader",
+        "title": "Paper Reader",
+        "description": "Highlight key terms and avoid typos in this PDF-themed runner. Press ESC for abstract view.",
+        "thumbnail": "/thumbnails/paper-reader.png",
+        "url": "#",
+        "category": "Runner"
     }
 ]
 
