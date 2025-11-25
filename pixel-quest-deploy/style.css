@@ -1,0 +1,222 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-container {
+    width: 900px;
+    height: 600px;
+    background-color: #f0f0f0;
+    border: 1px solid #999;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Toolbar */
+.toolbar {
+    width: 60px;
+    background-color: #e0e0e0;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.tool {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.tool.active {
+    background-color: #cceeff;
+    border-color: #99ccff;
+}
+
+.color-picker {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+}
+
+.color {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #999;
+    cursor: pointer;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.status-text {
+    font-size: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Canvas Area */
+.canvas-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-bar {
+    height: 25px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.menu-bar span {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.menu-bar span:hover {
+    background-color: #e0e0e0;
+}
+
+#game-canvas-container {
+    flex-grow: 1;
+    background-color: #808080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#game-canvas {
+    background-color: #fff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    image-rendering: pixelated; /* Crucial for pixel art look */
+}
+
+.status-bar {
+    height: 20px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 11px;
+    color: #666;
+    gap: 20px;
+}
+
+/* Overlays */
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border: 1px solid #999;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    border-radius: 5px;
+    min-width: 300px;
+}
+
+.overlay h1 {
+    margin-top: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+button {
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #005a9e;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Stealth Mode */
+#stealth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.spreadsheet-header {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    background-color: #f3f3f3;
+}
+
+.cell-header {
+    width: 100px;
+    padding: 5px;
+    border-right: 1px solid #ccc;
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+}
+
+.spreadsheet-row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.cell-row-num {
+    width: 30px;
+    background-color: #f3f3f3;
+    border-right: 1px solid #ccc;
+    text-align: center;
+    padding: 5px;
+    color: #666;
+}
+
+.cell {
+    width: 100px;
+    padding: 5px;
+    border-right: 1px solid #eee;
+}

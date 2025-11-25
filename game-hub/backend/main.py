@@ -28,7 +28,7 @@ games_db = [
         "id": "Code-dash",
         "title": "Code-dash",
         "description": "A stealth game disguised as a code editor. Avoid errors and fix bugs!",
-        "thumbnail": "/thumbnails/vscode-stealth.png", 
+        "thumbnail": "/thumbnails/codedash.png", 
         "url": "https://game1-xi-snowy.vercel.app/", 
         "category": "Action"
     },
@@ -41,9 +41,9 @@ games_db = [
         "category": "Racing"
     },
     {
-        "id": "coming-soon-2",
+        "id": "pixel-quest",
         "title": "Pixel Quest",
-        "description": "An epic 8-bit adventure awaits.",
+        "description": "Defend your canvas from glitch pixels in this paint-tool disguised RPG. Press ESC to switch to work mode.",
         "thumbnail": "/thumbnails/pixel-quest.png",
         "url": "#",
         "category": "RPG"

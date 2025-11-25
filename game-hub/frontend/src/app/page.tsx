@@ -32,7 +32,7 @@ const translations = {
     library: "라이브러리",
     community: "커뮤니티",
     heroTitle: "무한한 플레이",
-    heroDesc: "인디 게임, 스텔스 러너, 레트로 고전 게임을 발견하세요. 브라우저에서 즉시 플레이하세요.",
+    heroDesc: "몰래할 수 있는 게임들만 모아놨습니다. 브라우저에서 즉시 플레이하세요.",
     featured: "추천 게임",
     all: "전체",
     action: "액션",
@@ -46,20 +46,20 @@ const translations = {
 const gameTranslations: Record<string, { ko: { title: string; description: string } }> = {
   "vscode-stealth": {
     ko: {
-      title: "VS Code 스텔스 러너",
-      description: "코드 에디터로 위장한 스텔스 게임입니다. 오류를 피하고 버그를 수정하세요!"
+      title: "Code Dash",
+      description: "VSCode로 위장한 스텔스 게임입니다. 오류를 피하고 버그를 수정하세요!"
     }
   },
   "neon-racer": {
     ko: {
       title: "네온 레이서",
-      description: "터미널 기반 레이서에서 데이터 스트림을 탐색하고 방화벽을 피하세요. ESC를 눌러 스텔스 모드로 전환하세요."
+      description: "터미널 레이서에서 데이터 스트림을 탐색하고 방화벽을 피하세요. ESC를 눌러 스텔스 모드로 전환하세요."
     }
   },
   "pixel-quest": {
     ko: {
       title: "픽셀 퀘스트",
-      description: "서사적인 8비트 모험이 기다리고 있습니다."
+      description: "그림판으로 위장한 RPG에서 글리치 픽셀로부터 캔버스를 방어하세요. ESC를 눌러 업무 모드로 전환하세요."
     }
   }
 };
@@ -84,9 +84,9 @@ export default function Home() {
       category: "Racing"
     },
     {
-      id: "coming-soon-2",
+      id: "pixel-quest",
       title: "Pixel Quest",
-      description: "An epic 8-bit adventure awaits.",
+      description: "Defend your canvas from glitch pixels in this paint-tool disguised RPG. Press ESC to switch to work mode.",
       thumbnail: "/thumbnails/pixel-quest.png",
       url: "#",
       category: "RPG"
