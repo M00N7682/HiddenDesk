@@ -88,7 +88,7 @@ export default function Home() {
       title: "Pixel Quest",
       description: "Defend your canvas from glitch pixels in this paint-tool disguised RPG. Press ESC to switch to work mode.",
       thumbnail: "/thumbnails/pixel-quest.png",
-      url: "#",
+      url: "https://hidden-desk-9hye.vercel.app/",
       category: "RPG"
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
@@ -109,7 +109,15 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         if (data && data.length > 0) {
-          setGames(data);
+          // Merge with initialGames to prefer local URLs if API has placeholders (handling stale backend)
+          const mergedData = data.map((apiGame: Game) => {
+             const localGame = initialGames.find(g => g.id === apiGame.id);
+             if (localGame && (apiGame.url === "#" || !apiGame.url) && localGame.url !== "#") {
+                 return { ...apiGame, url: localGame.url };
+             }
+             return apiGame;
+          });
+          setGames(mergedData);
         }
       })
       .catch((err) => {
