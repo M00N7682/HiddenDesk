@@ -12,41 +12,50 @@ const stealthOverlay = document.getElementById('stealth-overlay');
 canvas.width = 600;
 canvas.height = 850;
 
+// Game Config (Snake)
+const GRID_SIZE = 25; // Matches line height roughly
+const COLS = Math.floor(canvas.width / GRID_SIZE);
+const ROWS = Math.floor(canvas.height / GRID_SIZE);
+
 // Game State
 let isPlaying = false;
 let isStealth = false;
 let score = 0;
-let health = 10.0; // Impact Factor
-let speed = 2;
+let health = 10.0; // Not used in Snake but kept for UI compatibility
 let gameLoopId;
 let lastTime = 0;
+let moveInterval = 150; // ms per move
+let timeSinceLastMove = 0;
 
-// Player (Highlighter)
-const player = {
-    x: canvas.width / 2 - 50,
-    y: 700,
-    width: 100,
-    height: 20,
-    color: 'rgba(255, 255, 0, 0.5)', // Yellow highlighter
-    speed: 300 // px per second
-};
+// Snake State
+let snake = [];
+let direction = { x: 1, y: 0 };
+let nextDirection = { x: 1, y: 0 };
+let food = null;
 
 // Input
-const keys = {
-    ArrowLeft: false,
-    ArrowRight: false
-};
-
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') toggleStealth();
     if (e.code === 'Space' && !isPlaying && startScreen.classList.contains('overlay')) {
         startGame();
     }
-    if (keys.hasOwnProperty(e.code)) keys[e.code] = true;
-});
+    
+    if (!isPlaying) return;
 
-document.addEventListener('keyup', (e) => {
-    if (keys.hasOwnProperty(e.code)) keys[e.code] = false;
+    switch(e.code) {
+        case 'ArrowUp':
+            if (direction.y === 0) nextDirection = { x: 0, y: -1 };
+            break;
+        case 'ArrowDown':
+            if (direction.y === 0) nextDirection = { x: 0, y: 1 };
+            break;
+        case 'ArrowLeft':
+            if (direction.x === 0) nextDirection = { x: -1, y: 0 };
+            break;
+        case 'ArrowRight':
+            if (direction.x === 0) nextDirection = { x: 1, y: 0 };
+            break;
+    }
 });
 
 restartBtn.addEventListener('click', startGame);
@@ -65,58 +74,52 @@ function toggleStealth() {
     }
 }
 
-// Content Generation
+// Content Generation (Static Background Text)
 const lorem = "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum";
 const words = lorem.split(' ');
+let backgroundText = [];
 
-let lines = [];
-const LINE_HEIGHT = 30;
-const FONT_SIZE = 16;
-
-function initLines() {
-    lines = [];
-    for (let y = 0; y < canvas.height + LINE_HEIGHT; y += LINE_HEIGHT) {
-        generateLine(y);
+function initBackground() {
+    backgroundText = [];
+    let y = GRID_SIZE;
+    while (y < canvas.height) {
+        let x = GRID_SIZE;
+        while (x < canvas.width - GRID_SIZE) {
+            let text = words[Math.floor(Math.random() * words.length)];
+            let width = ctx.measureText(text).width + 10;
+            if (x + width > canvas.width - GRID_SIZE) break;
+            
+            backgroundText.push({
+                text: text,
+                x: x,
+                y: y
+            });
+            x += width;
+        }
+        y += GRID_SIZE;
     }
 }
 
-function generateLine(y) {
-    let x = 40; // Left margin
-    let lineWords = [];
-    
-    while (x < canvas.width - 40) {
-        let text = words[Math.floor(Math.random() * words.length)];
-        let width = ctx.measureText(text).width + 10;
+function spawnFood() {
+    let valid = false;
+    while (!valid) {
+        let x = Math.floor(Math.random() * (COLS - 2)) + 1;
+        let y = Math.floor(Math.random() * (ROWS - 2)) + 1;
         
-        if (x + width > canvas.width - 40) break;
-
-        let type = 'normal';
-        // 10% chance for special word
-        if (Math.random() < 0.1) {
-            if (Math.random() < 0.5) {
-                type = 'good'; // Keyword
-                text = ['KEYWORD', 'DATA', 'RESULT', 'NOVEL', 'PROVEN'][Math.floor(Math.random() * 5)];
-            } else {
-                type = 'bad'; // Typo
-                text = ['TYPO', 'ERROR', 'FAIL', 'WRONG', 'FALSE'][Math.floor(Math.random() * 5)];
+        // Check collision with snake
+        let onSnake = false;
+        for (let segment of snake) {
+            if (segment.x === x && segment.y === y) {
+                onSnake = true;
+                break;
             }
         }
-
-        lineWords.push({
-            text: text,
-            x: x,
-            width: width - 10, // Actual text width
-            type: type,
-            active: true
-        });
         
-        x += width;
+        if (!onSnake) {
+            food = { x, y };
+            valid = true;
+        }
     }
-
-    lines.push({
-        y: y,
-        words: lineWords
-    });
 }
 
 function startGame() {
@@ -125,10 +128,20 @@ function startGame() {
     isPlaying = true;
     score = 0;
     health = 10.0;
-    speed = 2;
+    moveInterval = 150;
     
+    // Init Snake
+    snake = [
+        { x: 5, y: 10 },
+        { x: 4, y: 10 },
+        { x: 3, y: 10 }
+    ];
+    direction = { x: 1, y: 0 };
+    nextDirection = { x: 1, y: 0 };
+    
+    initBackground();
+    spawnFood();
     updateUI();
-    initLines();
     
     lastTime = performance.now();
     gameLoop(lastTime);
@@ -141,52 +154,49 @@ function gameOver() {
     gameOverScreen.classList.remove('hidden');
 }
 
-function update(dt) {
+function update(timestamp) {
     if (isStealth) return;
 
-    // Move Player
-    if (keys.ArrowLeft && player.x > 40) player.x -= player.speed * dt;
-    if (keys.ArrowRight && player.x + player.width < canvas.width - 40) player.x += player.speed * dt;
+    timeSinceLastMove += (timestamp - lastTime);
+    lastTime = timestamp;
 
-    // Scroll Lines
-    for (let i = 0; i < lines.length; i++) {
-        lines[i].y -= speed;
+    if (timeSinceLastMove > moveInterval) {
+        timeSinceLastMove = 0;
+        move();
     }
+}
 
-    // Remove off-screen lines and add new ones
-    if (lines[0].y < -LINE_HEIGHT) {
-        lines.shift();
-        generateLine(lines[lines.length - 1].y + LINE_HEIGHT);
-        score += 1; // Survival points
-        speed += 0.001; // Slowly increase speed
+function move() {
+    direction = nextDirection;
+    
+    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+    
+    // Wall Collision
+    if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) {
+        gameOver();
+        return;
     }
-
-    // Collision Detection
-    // Check lines near player
-    lines.forEach(line => {
-        if (line.y > player.y - LINE_HEIGHT && line.y < player.y + player.height) {
-            line.words.forEach(word => {
-                if (!word.active) return;
-                
-                // Simple AABB collision
-                if (player.x < word.x + word.width &&
-                    player.x + player.width > word.x) {
-                    
-                    if (word.type === 'good') {
-                        score += 50;
-                        word.active = false; // Collected
-                        // Visual feedback could go here
-                    } else if (word.type === 'bad') {
-                        health -= 1.0;
-                        word.active = false; // Hit
-                        if (health <= 0) gameOver();
-                    }
-                }
-            });
+    
+    // Self Collision
+    for (let segment of snake) {
+        if (head.x === segment.x && head.y === segment.y) {
+            gameOver();
+            return;
         }
-    });
-
-    updateUI();
+    }
+    
+    snake.unshift(head);
+    
+    // Eat Food
+    if (head.x === food.x && head.y === food.y) {
+        score += 10;
+        // Speed up slightly
+        moveInterval = Math.max(50, moveInterval - 2);
+        spawnFood();
+        updateUI();
+    } else {
+        snake.pop();
+    }
 }
 
 function draw() {
@@ -194,50 +204,50 @@ function draw() {
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Text
-    ctx.font = `${FONT_SIZE}px "Times New Roman"`;
+    // Draw Background Text
+    ctx.font = '16px "Times New Roman"';
+    ctx.fillStyle = '#333';
     ctx.textBaseline = 'top';
-
-    lines.forEach(line => {
-        line.words.forEach(word => {
-            if (!word.active && word.type !== 'normal') return; // Don't draw collected items
-
-            if (word.type === 'good') {
-                ctx.fillStyle = '#000';
-                ctx.font = `bold ${FONT_SIZE}px "Times New Roman"`;
-            } else if (word.type === 'bad') {
-                ctx.fillStyle = '#c00000'; // Red for typos
-                ctx.font = `${FONT_SIZE}px "Times New Roman"`;
-            } else {
-                ctx.fillStyle = '#333';
-                ctx.font = `${FONT_SIZE}px "Times New Roman"`;
-            }
-            
-            ctx.fillText(word.text, word.x, line.y);
-        });
+    
+    backgroundText.forEach(word => {
+        ctx.fillText(word.text, word.x, word.y);
     });
 
-    // Draw Player (Highlighter)
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    // Draw Food (Blue Highlight)
+    if (food) {
+        ctx.fillStyle = 'rgba(0, 100, 255, 0.3)';
+        ctx.fillRect(food.x * GRID_SIZE, food.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        ctx.strokeStyle = 'blue';
+        ctx.strokeRect(food.x * GRID_SIZE, food.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+    }
+
+    // Draw Snake (Yellow Highlight)
+    ctx.fillStyle = 'rgba(255, 255, 0, 0.6)';
+    snake.forEach(segment => {
+        ctx.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+    });
+    
+    // Draw Snake Head Border
+    if (snake.length > 0) {
+        ctx.strokeStyle = '#d4a017';
+        ctx.strokeRect(snake[0].x * GRID_SIZE, snake[0].y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+    }
 }
 
 function updateUI() {
     scoreDisplay.innerText = score;
-    healthDisplay.innerText = health.toFixed(1);
+    healthDisplay.innerText = "N/A"; // Not used in Snake
 }
 
 function gameLoop(timestamp) {
     if (!isPlaying) return;
-    const dt = (timestamp - lastTime) / 1000;
-    lastTime = timestamp;
-    
-    update(dt);
+    update(timestamp);
     draw();
     gameLoopId = requestAnimationFrame(gameLoop);
 }
 
 // Initial render
-ctx.font = `${FONT_SIZE}px "Times New Roman"`;
-initLines();
+ctx.font = '16px "Times New Roman"';
+initBackground();
 draw();
+

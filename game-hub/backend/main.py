@@ -61,7 +61,7 @@ games_db = [
         "title": "Paper Reader",
         "description": "Highlight key terms and avoid typos in this PDF-themed runner. Press ESC for abstract view.",
         "thumbnail": "/thumbnails/paper-reader.png",
-        "url": "#",
+        "url": "https://paperreader.vercel.app/",
         "category": "Runner"
     }
 ]
