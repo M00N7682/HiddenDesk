@@ -29,9 +29,11 @@ let timeSinceLastMove = 0;
 
 // Snake State
 let snake = [];
+let obstacles = []; // New: Obstacles (Typos)
 let direction = { x: 1, y: 0 };
 let nextDirection = { x: 1, y: 0 };
 let food = null;
+let foodsEaten = 0; // Track for difficulty
 
 // Input
 document.addEventListener('keydown', (e) => {
@@ -100,25 +102,66 @@ function initBackground() {
     }
 }
 
+function isOccupied(x, y) {
+    // Check snake
+    for (let segment of snake) {
+        if (segment.x === x && segment.y === y) return true;
+    }
+    // Check obstacles
+    for (let obs of obstacles) {
+        if (obs.x === x && obs.y === y) return true;
+    }
+    // Check food (if spawning obstacle)
+    if (food && food.x === x && food.y === y) return true;
+    
+    return false;
+}
+
 function spawnFood() {
     let valid = false;
-    while (!valid) {
+    let attempts = 0;
+    
+    while (!valid && attempts < 100) {
         let x = Math.floor(Math.random() * (COLS - 2)) + 1;
         let y = Math.floor(Math.random() * (ROWS - 2)) + 1;
         
-        // Check collision with snake
-        let onSnake = false;
-        for (let segment of snake) {
-            if (segment.x === x && segment.y === y) {
-                onSnake = true;
-                break;
-            }
-        }
-        
-        if (!onSnake) {
+        if (!isOccupied(x, y)) {
             food = { x, y };
             valid = true;
         }
+        attempts++;
+    }
+    
+    // Fallback: Linear search if random fails
+    if (!valid) {
+        for (let y = 1; y < ROWS - 1; y++) {
+            for (let x = 1; x < COLS - 1; x++) {
+                if (!isOccupied(x, y)) {
+                    food = { x, y };
+                    return;
+                }
+            }
+        }
+    }
+}
+
+function spawnObstacle() {
+    let valid = false;
+    let attempts = 0;
+    
+    while (!valid && attempts < 50) {
+        let x = Math.floor(Math.random() * (COLS - 2)) + 1;
+        let y = Math.floor(Math.random() * (ROWS - 2)) + 1;
+        
+        // Don't spawn too close to snake head
+        const head = snake[0];
+        const dist = Math.abs(head.x - x) + Math.abs(head.y - y);
+        
+        if (!isOccupied(x, y) && dist > 5) {
+            obstacles.push({ x, y });
+            valid = true;
+        }
+        attempts++;
     }
 }
 
@@ -129,6 +172,7 @@ function startGame() {
     score = 0;
     health = 10.0;
     moveInterval = 150;
+    foodsEaten = 0;
     
     // Init Snake
     snake = [
@@ -136,6 +180,7 @@ function startGame() {
         { x: 4, y: 10 },
         { x: 3, y: 10 }
     ];
+    obstacles = [];
     direction = { x: 1, y: 0 };
     nextDirection = { x: 1, y: 0 };
     
@@ -184,14 +229,30 @@ function move() {
             return;
         }
     }
+
+    // Obstacle Collision
+    for (let obs of obstacles) {
+        if (head.x === obs.x && head.y === obs.y) {
+            gameOver();
+            return;
+        }
+    }
     
     snake.unshift(head);
     
     // Eat Food
     if (head.x === food.x && head.y === food.y) {
         score += 10;
+        foodsEaten++;
+        
         // Speed up slightly
-        moveInterval = Math.max(50, moveInterval - 2);
+        moveInterval = Math.max(50, moveInterval - 1);
+        
+        // Spawn Obstacle every 3 foods
+        if (foodsEaten % 3 === 0) {
+            spawnObstacle();
+        }
+
         spawnFood();
         updateUI();
     } else {
@@ -211,6 +272,12 @@ function draw() {
     
     backgroundText.forEach(word => {
         ctx.fillText(word.text, word.x, word.y);
+    });
+
+    // Draw Obstacles (Red Highlight - Typos)
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+    obstacles.forEach(obs => {
+        ctx.fillRect(obs.x * GRID_SIZE, obs.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
     });
 
     // Draw Food (Blue Highlight)
