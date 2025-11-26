@@ -85,6 +85,13 @@ const gameTranslations: Record<string, { ko: { title: string; description: strin
       description: "PDF 테마의 러닝 게임에서 핵심 용어를 강조하고 오타를 피하세요. ESC를 눌러 초록 보기로 전환하세요.",
       instructions: "방향키로 형광펜을 조종하여 파란색 핵심 용어를 연결하세요. 벽이나 꼬리에 부딪히지 마세요. ESC를 눌러 논문 모드로 전환하세요."
     }
+  },
+  "git-merge": {
+    ko: {
+      title: "깃 머지",
+      description: "Git GUI로 위장한 퍼즐 게임입니다. 커밋 노드를 연결하여 충돌을 해결하세요. ESC를 눌러 터미널 모드로 전환하세요.",
+      instructions: "마우스로 같은 색깔의 커밋 노드를 연결하세요. 선이 겹치지 않게 모든 칸을 채우세요. ESC를 눌러 터미널 모드로 전환하세요."
+    }
   }
 };
 
@@ -135,6 +142,15 @@ export default function Home() {
       url: "https://paperreader.vercel.app/",
       category: "Runner",
       instructions: "Use Arrow keys to guide the highlighter. Connect blue key terms. Avoid walls and tail. Press ESC for stealth mode."
+    },
+    {
+      id: "git-merge",
+      title: "Git Merge",
+      description: "A puzzle game disguised as a Git GUI. Connect commit nodes to resolve conflicts. Press ESC for terminal mode.",
+      thumbnail: "/thumbnails/git-merge.png",
+      url: "https://gitmerge.vercel.app/",
+      category: "Puzzle",
+      instructions: "Use mouse to connect matching colored commit nodes. Fill the grid without crossing lines. Press ESC for terminal mode."
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately

@@ -63,6 +63,14 @@ games_db = [
         "thumbnail": "/thumbnails/paper-reader.png",
         "url": "https://paperreader.vercel.app/",
         "category": "Runner"
+    },
+    {
+        "id": "git-merge",
+        "title": "Git Merge",
+        "description": "Resolve merge conflicts by connecting commit nodes. Looks like a Git GUI. Press ESC for terminal mode.",
+        "thumbnail": "/thumbnails/git-merge.png",
+        "url": "https://gitmerge.vercel.app/",
+        "category": "Puzzle"
     }
 ]
 

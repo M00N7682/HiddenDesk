@@ -1,0 +1,221 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e;
+    color: #cccccc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #252526;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.sidebar-item:hover {
+    background-color: #2a2d2e;
+}
+
+.sidebar-item.active {
+    background-color: #37373d;
+    color: white;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    height: 40px;
+    background-color: #2d2d2d;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.branch-name {
+    font-weight: bold;
+    color: #fff;
+    margin-right: 20px;
+}
+
+.action-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+    background-color: #0e639c;
+    color: white;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.game-area {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e1e1e;
+}
+
+.game-header {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+    display: grid;
+    background-color: #2d2d2d;
+    padding: 10px;
+    border-radius: 4px;
+    gap: 2px;
+    touch-action: none;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    background-color: #1e1e1e;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Commit Nodes (Dots) */
+.node {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+}
+
+.node.pulse {
+    transform: scale(1.1);
+}
+
+/* Branches (Lines) */
+.path {
+    position: absolute;
+    background-color: inherit;
+    z-index: 1;
+}
+
+.path.horizontal {
+    height: 20px;
+    width: 62px; /* Overlap slightly */
+    top: 20px;
+    left: -1px;
+}
+
+.path.vertical {
+    width: 20px;
+    height: 62px;
+    left: 20px;
+    top: -1px;
+}
+
+.path.center {
+    width: 20px;
+    height: 20px;
+    top: 20px;
+    left: 20px;
+}
+
+/* Colors */
+.color-1 { background-color: #e06c75; } /* Red */
+.color-2 { background-color: #98c379; } /* Green */
+.color-3 { background-color: #61afef; } /* Blue */
+.color-4 { background-color: #e5c07b; } /* Yellow */
+.color-5 { background-color: #c678dd; } /* Purple */
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 30, 30, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.hidden {
+    display: none !important;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0e639c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #1177bb;
+}
+
+/* Stealth Mode */
+.stealth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 100;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.terminal {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.prompt { color: #98c379; }
+.hash { color: #e5c07b; }
+.cursor { animation: blink 1s infinite; }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
