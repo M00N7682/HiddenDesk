@@ -129,7 +129,7 @@ export default function Home() {
       id: "cell-invaders",
       title: "Cell Invaders",
       description: "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
-      thumbnail: "/thumbnails/cellinvaders.png",
+      thumbnail: "/thumbnails/cellinvader.png",
       url: "https://cellinvader.vercel.app/",
       category: "Shooter",
       instructions: "Use Arrow keys to move. Space to shoot. Press ESC for stealth mode."
