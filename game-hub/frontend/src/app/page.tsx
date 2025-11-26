@@ -129,7 +129,7 @@ export default function Home() {
       id: "cell-invaders",
       title: "Cell Invaders",
       description: "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
-      thumbnail: "/thumbnails/cell-invaders.png",
+      thumbnail: "/thumbnails/cellinvaders.png",
       url: "https://cellinvader.vercel.app/",
       category: "Shooter",
       instructions: "Use Arrow keys to move. Space to shoot. Press ESC for stealth mode."
@@ -138,7 +138,7 @@ export default function Home() {
       id: "paper-reader",
       title: "Paper Reader",
       description: "Highlight key terms and avoid typos in this PDF-themed runner. Press ESC for abstract view.",
-      thumbnail: "/thumbnails/paper-reader.png",
+      thumbnail: "/thumbnails/paperreader.png",
       url: "https://paperreader.vercel.app/",
       category: "Runner",
       instructions: "Use Arrow keys to guide the highlighter. Connect blue key terms. Avoid walls and tail. Press ESC for stealth mode."
@@ -147,7 +147,7 @@ export default function Home() {
       id: "git-merge",
       title: "Git Merge",
       description: "A puzzle game disguised as a Git GUI. Connect commit nodes to resolve conflicts. Press ESC for terminal mode.",
-      thumbnail: "/thumbnails/git-merge.png",
+      thumbnail: "/thumbnails/gitmerge.png",
       url: "https://gitmerge.vercel.app/",
       category: "Puzzle",
       instructions: "Use mouse to connect matching colored commit nodes. Fill the grid without crossing lines. Press ESC for terminal mode."
