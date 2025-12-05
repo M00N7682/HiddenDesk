@@ -52,7 +52,7 @@ games_db = [
         "id": "cell-invaders",
         "title": "Cell Invaders",
         "description": "Eliminate error codes in this spreadsheet shooter. Looks exactly like work. Press ESC for chart mode.",
-        "thumbnail": "/thumbnails/cell-invaders.png",
+        "thumbnail": "/thumbnails/cellinvaders.png",
         "url": "https://cellinvader.vercel.app/",
         "category": "Shooter"
     },
@@ -60,7 +60,7 @@ games_db = [
         "id": "paper-reader",
         "title": "Paper Reader",
         "description": "Highlight key terms and avoid typos in this PDF-themed runner. Press ESC for abstract view.",
-        "thumbnail": "/thumbnails/paper-reader.png",
+        "thumbnail": "/thumbnails/paperreader.png",
         "url": "https://paperreader.vercel.app/",
         "category": "Runner"
     },
@@ -68,7 +68,7 @@ games_db = [
         "id": "git-merge",
         "title": "Git Merge",
         "description": "Resolve merge conflicts by connecting commit nodes. Looks like a Git GUI. Press ESC for terminal mode.",
-        "thumbnail": "/thumbnails/git-merge.png",
+        "thumbnail": "/thumbnails/gitmerge.png",
         "url": "https://gitmerge.vercel.app/",
         "category": "Puzzle"
     }
