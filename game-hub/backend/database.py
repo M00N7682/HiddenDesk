@@ -6,7 +6,12 @@ import os
 # MySQL Connection URL
 # Format: mysql+pymysql://<username>:<password>@<host>:<port>/<database_name>
 # Please update this with your actual MySQL credentials
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:password@localhost:3306/hiddendesk")
+# Railway DB URL provided by user (converted to mysql+pymysql)
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:tVuSvzaxeocrXhpypVIMjdIZCLyHfsnA@metro.proxy.rlwy.net:46721/railway")
+
+# Ensure we use pymysql driver if the URL starts with mysql://
+if SQLALCHEMY_DATABASE_URL.startswith("mysql://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
