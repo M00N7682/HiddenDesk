@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
-from . import models, database
-from .routers import community
+import models, database
+from routers import community
 
 # Create DB tables
 models.Base.metadata.create_all(bind=database.engine)
