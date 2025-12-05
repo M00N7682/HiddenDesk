@@ -200,9 +200,9 @@ export default function Home() {
           
           <div className="flex items-center gap-6">
                         <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-400">
-              <a href="#" className="hover:text-white transition-colors">{t.store}</a>
+              <a href="/" className="hover:text-white transition-colors">{t.store}</a>
               <a href="#" className="hover:text-white transition-colors">{t.library}</a>
-              <a href="#" className="hover:text-white transition-colors">{t.community}</a>
+              <a href="/community" className="hover:text-white transition-colors">{t.community}</a>
             </nav>
             
             {/* Language Toggle */}
