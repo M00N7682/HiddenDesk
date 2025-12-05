@@ -10,7 +10,7 @@ class Post(database.Base):
     title = Column(String(100), index=True)
     content = Column(Text)
     category = Column(String(50)) # e.g., 'Discussion', 'Idea', 'Bug'
-    author_name = Column(String(50)) # Anonymous nickname
+    author_name = Column(String(50)) # Anonymous name
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     views = Column(Integer, default=0)
     likes = Column(Integer, default=0)
