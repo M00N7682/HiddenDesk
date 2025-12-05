@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from . import models, schemas
+import models, schemas
 
 def get_posts(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Post).order_by(models.Post.created_at.desc()).offset(skip).limit(limit).all()
