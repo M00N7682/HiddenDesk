@@ -17,7 +17,7 @@ class Post(database.Base):
 
     comments = relationship("Comment", back_populates="post", cascade="all, delete-orphan")
 
-class Comment(Base):
+class Comment(database.Base):
     __tablename__ = "comments"
 
     id = Column(Integer, primary_key=True, index=True)
