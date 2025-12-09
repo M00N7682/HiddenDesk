@@ -1,0 +1,323 @@
+:root {
+    --bg-dark: #1e1e1e;
+    --bg-panel: #252526;
+    --bg-header: #333333;
+    --accent: #007acc;
+    --text-main: #cccccc;
+    --text-muted: #858585;
+    --border: #454545;
+    --grid-line: #3a3a3a;
+    --cable-off: #555;
+    --cable-on: #00ff00; /* Green for active */
+    --cable-on-glow: rgba(0, 255, 0, 0.5);
+}
+
+* {
+    box-sizing: border_box;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 60px;
+    background-color: var(--bg-header);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    border-right: 1px solid var(--border);
+}
+
+.tool {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.tool i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.tool:hover, .tool.active {
+    color: white;
+}
+
+.tool.active {
+    border-left: 2px solid white;
+}
+
+.spacer {
+    flex: 1;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    height: 40px;
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.status-text {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-text .offline { color: #ff4444; }
+.status-text .online { color: #00ff00; }
+
+/* Canvas / Game Area */
+.canvas-area {
+    flex: 1;
+    background-color: var(--bg-dark);
+    background-image: 
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.grid-container {
+    display: grid;
+    gap: 0;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    padding: 10px;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cell:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* Components */
+.component {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Cables */
+.cable {
+    position: absolute;
+    background-color: var(--cable-off);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.cable.active {
+    background-color: var(--cable-on);
+    box-shadow: 0 0 10px var(--cable-on-glow);
+}
+
+/* Straight: Top to Bottom */
+.type-straight .cable {
+    width: 8px;
+    height: 100%;
+}
+
+/* Corner: Top to Right */
+.type-corner .cable.v {
+    width: 8px;
+    height: 60%;
+    top: 0;
+}
+.type-corner .cable.h {
+    width: 60%;
+    height: 8px;
+    right: 0;
+}
+
+/* T-Shape: Top, Right, Bottom */
+.type-t .cable.v {
+    width: 8px;
+    height: 100%;
+}
+.type-t .cable.h {
+    width: 50%;
+    height: 8px;
+    right: 0;
+}
+
+/* Cross: All 4 */
+.type-cross .cable.v {
+    width: 8px;
+    height: 100%;
+}
+.type-cross .cable.h {
+    width: 100%;
+    height: 8px;
+}
+
+/* Server / Endpoint Icons */
+.device-icon {
+    z-index: 2;
+    font-size: 24px;
+    color: var(--text-main);
+    background-color: var(--bg-panel);
+    padding: 5px;
+    border-radius: 50%;
+    border: 2px solid var(--cable-off);
+}
+
+.device-icon.active {
+    color: white;
+    border-color: var(--cable-on);
+    box-shadow: 0 0 15px var(--cable-on-glow);
+}
+
+.source .device-icon { color: #4da6ff; }
+.endpoint .device-icon { color: #ffaa00; }
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.modal {
+    background-color: var(--bg-panel);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.modal h1 { margin-top: 0; color: white; }
+.modal p { color: var(--text-main); margin-bottom: 20px; }
+
+.primary-btn {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.primary-btn:hover {
+    background-color: #0062a3;
+}
+
+.stealth-hint {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Stealth Overlay */
+.stealth-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: black;
+    z-index: 9999;
+    padding: 20px;
+    font-family: 'Consolas', monospace;
+    color: #ccc;
+}
+
+.stealth-overlay.hidden { display: none; }
+
+.terminal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.terminal-body {
+    flex: 1;
+    overflow: hidden;
+}

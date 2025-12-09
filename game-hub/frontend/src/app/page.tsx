@@ -92,6 +92,13 @@ const gameTranslations: Record<string, { ko: { title: string; description: strin
       description: "Git GUI로 위장한 퍼즐 게임입니다. 커밋 노드를 연결하여 충돌을 해결하세요. ESC를 눌러 터미널 모드로 전환하세요.",
       instructions: "마우스로 같은 색깔의 커밋 노드를 연결하세요. 선이 겹치지 않게 모든 칸을 채우세요. ESC를 눌러 터미널 모드로 전환하세요."
     }
+  },
+  "network-flow": {
+    ko: {
+      title: "네트워크 플로우",
+      description: "네트워크 토폴로지 도구로 위장한 퍼즐 게임입니다. 케이블을 회전시켜 서버와 단말기를 연결하세요. ESC를 눌러 터미널 모드로 전환하세요.",
+      instructions: "타일을 클릭하여 케이블을 회전시키세요. 서버(파란색)에서 모든 단말기(주황색)로 연결되도록 하세요. ESC를 눌러 터미널 모드로 전환하세요."
+    }
   }
 };
 
@@ -151,6 +158,15 @@ export default function Home() {
       url: "https://gitmerge.vercel.app/",
       category: "Puzzle",
       instructions: "Use mouse to connect matching colored commit nodes. Fill the grid without crossing lines. Press ESC for terminal mode."
+    },
+    {
+      id: "network-flow",
+      title: "Network Flow",
+      description: "Connect servers to endpoints by rotating cables. Looks like a Network Topology tool. Press ESC for terminal mode.",
+      thumbnail: "/thumbnails/networkflow.png",
+      url: "https://network-flow.vercel.app/",
+      category: "Puzzle",
+      instructions: "Click tiles to rotate cables. Connect the blue server to all orange endpoints. Press ESC for terminal mode."
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
