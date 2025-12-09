@@ -1,9 +1,12 @@
-const gridElement = document.getElementById('grid');
-const statusText = document.getElementById('status-text');
-const levelText = document.getElementById('level-text');
-const overlay = document.getElementById('overlay');
+const gridElement = document.getElementById('game-grid');
+const statusText = document.getElementById('system-status');
+const levelText = document.getElementById('level-display');
+const overlay = document.getElementById('overlay-screen');
+const levelCompleteOverlay = document.getElementById('level-complete-screen');
 const stealthOverlay = document.getElementById('stealth-overlay');
 const terminalOutput = document.getElementById('terminal-body');
+const startBtn = document.getElementById('start-btn');
+const nextLevelBtn = document.getElementById('next-level-btn');
 
 // Game State
 let level = 1;
@@ -32,6 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') toggleStealth();
     });
+
+    if (startBtn) startBtn.addEventListener('click', startGame);
+    if (nextLevelBtn) nextLevelBtn.addEventListener('click', () => {
+        levelCompleteOverlay.classList.add('hidden');
+        nextLevel();
+    });
 });
 
 function startGame() {
@@ -42,7 +51,7 @@ function startGame() {
 
 function nextLevel() {
     level++;
-    levelText.textContent = `Level ${level}`;
+    levelText.textContent = level;
     // Increase difficulty
     if (level % 2 === 0 && width < 10) {
         width++;
@@ -363,8 +372,8 @@ function checkWinCondition() {
     let allEndpointsActive = endpoints.every(ep => ep.active);
     if (allEndpointsActive) {
         setTimeout(() => {
-            alert(`Level ${level} Complete! System Online.`);
-            nextLevel();
+            // Show Level Complete Overlay
+            levelCompleteOverlay.classList.remove('hidden');
         }, 500);
     }
 }
