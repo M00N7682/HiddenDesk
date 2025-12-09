@@ -85,7 +85,7 @@ games_db = [
         "title": "Network Flow",
         "description": "Connect servers to endpoints by rotating cables. Looks like a Network Topology tool. Press ESC for terminal mode.",
         "thumbnail": "/thumbnails/networkflow.png",
-        "url": "https://network-flow.vercel.app/",
+        "url": "https://hidden-desk-8r5g.vercel.app/",
         "category": "Puzzle"
     }
 ]

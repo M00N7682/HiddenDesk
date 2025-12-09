@@ -3,7 +3,7 @@ const statusText = document.getElementById('status-text');
 const levelText = document.getElementById('level-text');
 const overlay = document.getElementById('overlay');
 const stealthOverlay = document.getElementById('stealth-overlay');
-const terminalOutput = document.getElementById('terminal-output');
+const terminalOutput = document.getElementById('terminal-body');
 
 // Game State
 let level = 1;
