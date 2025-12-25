@@ -80,9 +80,9 @@ export default function CommunityPage() {
           </Link>
           
           <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-400">
-            <Link href="/" className="hover:text-white transition-colors">Store</Link>
-            <Link href="#" className="hover:text-white transition-colors">Library</Link>
-            <Link href="/community" className="text-white font-bold">Community</Link>
+            <Link href="/" className="hover:text-white transition-colors">스토어</Link>
+            <Link href="#" className="hover:text-white transition-colors">라이브러리</Link>
+            <Link href="/community" className="text-white font-bold">커뮤니티</Link>
           </nav>
         </div>
       </header>
@@ -91,34 +91,34 @@ export default function CommunityPage() {
       <main className="container mx-auto px-6 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold">Community Hub</h2>
+            <h2 className="text-3xl font-bold">커뮤니티</h2>
             <button 
               onClick={() => setShowModal(true)}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold text-sm transition-colors"
             >
-              New Post
+              글쓰기
             </button>
           </div>
 
           {/* Pinned / Notice */}
           <div className="bg-gray-800/50 border border-blue-500/30 rounded-xl p-6 mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-2 py-1 rounded">NOTICE</span>
-              <span className="text-gray-400 text-sm">Admin • Always</span>
+              <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-2 py-1 rounded">공지</span>
+              <span className="text-gray-400 text-sm">관리자 • 상단 고정</span>
             </div>
-            <h3 className="text-xl font-bold mb-2">Welcome to Hidden Desk Community!</h3>
+            <h3 className="text-xl font-bold mb-2">Hidden Desk 커뮤니티에 오신 것을 환영합니다!</h3>
             <p className="text-gray-300">
-              Share your high scores, suggest new stealth game ideas, or report bugs here. 
-              Remember to keep your screen brightness low!
+              최고 점수를 공유하거나, 새로운 게임 아이디어를 제안하거나, 버그를 신고해 주세요.
+              화면 밝기는 낮추는 거 잊지 마세요!
             </p>
           </div>
 
           {/* Discussion List */}
           <div className="space-y-4">
             {loading ? (
-               <div className="text-center py-10 text-gray-500">Loading discussions...</div>
+               <div className="text-center py-10 text-gray-500">게시글을 불러오는 중...</div>
             ) : posts.length === 0 ? (
-               <div className="text-center py-10 text-gray-500">No posts yet. Be the first to post!</div>
+               <div className="text-center py-10 text-gray-500">아직 게시글이 없어요. 첫 번째 글을 작성해 보세요!</div>
             ) : (
               posts.map((post) => (
                 <Link href={`/community/${post.id}`} key={post.id}>
@@ -158,57 +158,57 @@ export default function CommunityPage() {
               ✕
             </button>
             
-            <h3 className="text-2xl font-bold mb-6">Create New Post</h3>
+            <h3 className="text-2xl font-bold mb-6">새 글 작성</h3>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Nickname</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">닉네임</label>
                 <input 
                   type="text" 
                   required
                   value={authorName}
                   onChange={(e) => setAuthorName(e.target.value)}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Anonymous"
+                  placeholder="익명"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Category</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">카테고리</label>
                 <select 
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
                 >
-                  <option value="Discussion">Discussion</option>
-                  <option value="Idea">Idea</option>
-                  <option value="Bug">Bug Report</option>
-                  <option value="Showcase">Showcase</option>
-                  <option value="Help">Help</option>
+                  <option value="Discussion">자유</option>
+                  <option value="Idea">아이디어</option>
+                  <option value="Bug">버그 신고</option>
+                  <option value="Showcase">점수 자랑</option>
+                  <option value="Help">질문</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Title</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">제목</label>
                 <input 
                   type="text" 
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                  placeholder="What's on your mind?"
+                  placeholder="제목을 입력하세요"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Content</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">내용</label>
                 <textarea 
                   required
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={5}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Write your details here..."
+                  placeholder="내용을 입력하세요"
                 />
               </div>
 
@@ -218,13 +218,13 @@ export default function CommunityPage() {
                   onClick={() => setShowModal(false)}
                   className="flex-1 py-3 rounded-lg font-bold bg-gray-700 hover:bg-gray-600 text-white transition-colors"
                 >
-                  Cancel
+                  취소
                 </button>
                 <button 
                   type="submit"
                   className="flex-1 py-3 rounded-lg font-bold bg-blue-600 hover:bg-blue-500 text-white transition-colors"
                 >
-                  Post
+                  게시
                 </button>
               </div>
             </form>

@@ -35,18 +35,18 @@ const translations = {
     store: "스토어",
     library: "라이브러리",
     community: "커뮤니티",
-    heroTitle: "무한한 플레이",
-    heroDesc: "몰래할 수 있는 게임들만 모아놨습니다. 브라우저에서 즉시 플레이하세요.",
+    heroTitle: "일하는 척, 몰래 플레이",
+    heroDesc: "업무용 프로그램으로 위장한 게임 컬렉션. 들키지 않고 브라우저에서 바로 즐기세요.",
     featured: "추천 게임",
     all: "전체",
     action: "액션",
     rpg: "RPG",
-    playNow: "플레이 하기",
+    playNow: "플레이하기",
     comingSoon: "출시 예정",
     footer: "© 2025 Hidden Desk. All rights reserved.",
     startGame: "게임 시작",
     cancel: "취소",
-    instructions: "게임 방법"
+    instructions: "조작 방법"
   }
 };
 
@@ -54,50 +54,50 @@ const gameTranslations: Record<string, { ko: { title: string; description: strin
   "vscode-stealth": {
     ko: {
       title: "Code Dash",
-      description: "VSCode로 위장한 스텔스 게임입니다. 오류를 피하고 버그를 수정하세요!",
-      instructions: "방향키로 이동하여 버그를 피하세요. ESC를 눌러 코딩 모드로 전환하세요."
+      description: "VS Code처럼 생긴 스텔스 게임. 버그를 피하고, 오류를 수정하세요!",
+      instructions: "방향키로 이동하며 버그를 피하세요. ESC를 누르면 코딩 화면으로 위장됩니다."
     }
   },
   "neon-racer": {
     ko: {
       title: "네온 레이서",
-      description: "터미널 레이서에서 데이터 스트림을 탐색하고 방화벽을 피하세요. ESC를 눌러 스텔스 모드로 전환하세요.",
-      instructions: "방향키로 이동하여 방화벽을 피하세요. ESC를 눌러 터미널 모드로 전환하세요."
+      description: "터미널 화면에서 펼쳐지는 레이싱 게임. 데이터 스트림 사이를 누비며 방화벽을 피하세요.",
+      instructions: "방향키로 조작하며 방화벽을 피하세요. ESC를 누르면 터미널 화면으로 위장됩니다."
     }
   },
   "pixel-quest": {
     ko: {
       title: "픽셀 퀘스트",
-      description: "그림판으로 위장한 RPG에서 글리치 픽셀로부터 캔버스를 방어하세요. ESC를 눌러 업무 모드로 전환하세요.",
-      instructions: "방향키로 이동하고 스페이스바로 공격하세요. ESC를 눌러 그림판 모드로 전환하세요."
+      description: "그림판으로 위장한 RPG 게임. 캔버스를 망치려는 글리치 픽셀들을 물리치세요.",
+      instructions: "방향키로 이동, 스페이스바로 공격하세요. ESC를 누르면 그림판 화면으로 위장됩니다."
     }
   },
   "cell-invaders": {
     ko: {
       title: "셀 인베이더",
-      description: "스프레드시트 슈팅 게임에서 에러 코드를 제거하세요. 완벽한 업무 위장. ESC를 눌러 차트 모드로 전환하세요.",
-      instructions: "방향키로 이동하고 스페이스바로 공격하세요. ESC를 눌러 엑셀 모드로 전환하세요."
+      description: "엑셀처럼 생긴 슈팅 게임. 셀 사이를 오가며 에러 코드를 제거하세요.",
+      instructions: "방향키로 이동, 스페이스바로 공격하세요. ESC를 누르면 엑셀 화면으로 위장됩니다."
     }
   },
   "paper-reader": {
     ko: {
       title: "논문 리더",
-      description: "PDF 테마의 러닝 게임에서 핵심 용어를 강조하고 오타를 피하세요. ESC를 눌러 초록 보기로 전환하세요.",
-      instructions: "방향키로 형광펜을 조종하여 파란색 핵심 용어를 연결하세요. 벽이나 꼬리에 부딪히지 마세요. ESC를 눌러 논문 모드로 전환하세요."
+      description: "논문 PDF처럼 생긴 스네이크 게임. 형광펜으로 핵심 용어를 연결하세요.",
+      instructions: "방향키로 형광펜을 조작해 파란색 용어를 연결하세요. 벽과 꼬리에 닿으면 게임 오버! ESC를 누르면 논문 화면으로 위장됩니다."
     }
   },
   "git-merge": {
     ko: {
       title: "깃 머지",
-      description: "Git GUI로 위장한 퍼즐 게임입니다. 커밋 노드를 연결하여 충돌을 해결하세요. ESC를 눌러 터미널 모드로 전환하세요.",
-      instructions: "마우스로 같은 색깔의 커밋 노드를 연결하세요. 선이 겹치지 않게 모든 칸을 채우세요. ESC를 눌러 터미널 모드로 전환하세요."
+      description: "Git GUI처럼 생긴 퍼즐 게임. 같은 색 커밋 노드를 연결해 충돌을 해결하세요.",
+      instructions: "마우스로 같은 색 커밋을 연결하세요. 선이 겹치지 않게 모든 칸을 채우면 클리어! ESC를 누르면 터미널 화면으로 위장됩니다."
     }
   },
   "network-flow": {
     ko: {
       title: "네트워크 플로우",
-      description: "네트워크 토폴로지 도구로 위장한 퍼즐 게임입니다. 케이블을 회전시켜 서버와 단말기를 연결하세요. ESC를 눌러 터미널 모드로 전환하세요.",
-      instructions: "타일을 클릭하여 케이블을 회전시키세요. 서버(파란색)에서 모든 단말기(주황색)로 연결되도록 하세요. ESC를 눌러 터미널 모드로 전환하세요."
+      description: "네트워크 관리 도구처럼 생긴 퍼즐 게임. 케이블을 돌려서 모든 단말기를 연결하세요.",
+      instructions: "타일을 클릭해 케이블 방향을 바꾸세요. 파란색 서버에서 주황색 단말기까지 모두 연결하면 클리어! ESC를 누르면 터미널 화면으로 위장됩니다."
     }
   }
 };
@@ -170,7 +170,7 @@ export default function Home() {
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
-  const [lang, setLang] = useState<'en' | 'ko'>('en');
+  const [lang, setLang] = useState<'en' | 'ko'>('ko');
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const t = translations[lang];
 

@@ -77,11 +77,11 @@ export default function PostDetailPage() {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">불러오는 중...</div>;
   }
 
   if (!post) {
-    return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">Post not found</div>;
+    return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">게시글을 찾을 수 없습니다</div>;
   }
 
   return (
@@ -95,9 +95,9 @@ export default function PostDetailPage() {
           </Link>
           
           <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-400">
-            <Link href="/" className="hover:text-white transition-colors">Store</Link>
-            <Link href="#" className="hover:text-white transition-colors">Library</Link>
-            <Link href="/community" className="text-white font-bold">Community</Link>
+            <Link href="/" className="hover:text-white transition-colors">스토어</Link>
+            <Link href="#" className="hover:text-white transition-colors">라이브러리</Link>
+            <Link href="/community" className="text-white font-bold">커뮤니티</Link>
           </nav>
         </div>
       </header>
@@ -105,7 +105,7 @@ export default function PostDetailPage() {
       <main className="container mx-auto px-6 py-12">
         <div className="max-w-4xl mx-auto">
           <Link href="/community" className="text-gray-400 hover:text-white mb-6 inline-block">
-            ← Back to Community
+            ← 커뮤니티로 돌아가기
           </Link>
 
           {/* Post Content */}
@@ -116,7 +116,7 @@ export default function PostDetailPage() {
                 post.category === 'Help' ? 'bg-yellow-500/20 text-yellow-400' :
                 'bg-gray-700 text-gray-300'
               }`}>{post.category}</span>
-              <span className="text-gray-400 text-sm">Posted by <span className="text-white font-bold">{post.author_name}</span></span>
+              <span className="text-gray-400 text-sm"><span className="text-white font-bold">{post.author_name}</span> 님</span>
               <span className="text-gray-500 text-sm">• {new Date(post.created_at).toLocaleDateString()}</span>
             </div>
             
@@ -127,40 +127,40 @@ export default function PostDetailPage() {
             
             <div className="flex items-center gap-6 mt-8 pt-6 border-t border-gray-700 text-gray-400">
               <button className="flex items-center gap-2 hover:text-blue-400 transition-colors">
-                <span>❤️</span> {post.likes} Likes
+                <span>❤️</span> 좋아요 {post.likes}
               </button>
               <span className="flex items-center gap-2">
-                <span>💬</span> {post.comments ? post.comments.length : 0} Comments
+                <span>💬</span> 댓글 {post.comments ? post.comments.length : 0}
               </span>
             </div>
           </article>
 
           {/* Comments Section */}
           <div className="bg-gray-900 rounded-xl">
-            <h3 className="text-xl font-bold mb-6">Comments</h3>
+            <h3 className="text-xl font-bold mb-6">댓글</h3>
             
             {/* Comment Form */}
             <form onSubmit={handleCommentSubmit} className="bg-gray-800/50 rounded-xl p-6 mb-8 border border-gray-700/50">
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-400 mb-1">Nickname</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">닉네임</label>
                 <input 
                   type="text" 
                   required
                   value={commentAuthor}
                   onChange={(e) => setCommentAuthor(e.target.value)}
                   className="w-full md:w-1/3 bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Anonymous"
+                  placeholder="익명"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-400 mb-1">Comment</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">댓글</label>
                 <textarea 
                   required
                   value={commentContent}
                   onChange={(e) => setCommentContent(e.target.value)}
                   rows={3}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Add to the discussion..."
+                  placeholder="댓글을 입력하세요"
                 />
               </div>
               <div className="flex justify-end">
@@ -168,7 +168,7 @@ export default function PostDetailPage() {
                   type="submit"
                   className="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold text-sm transition-colors"
                 >
-                  Post Comment
+                  댓글 작성
                 </button>
               </div>
             </form>
@@ -187,7 +187,7 @@ export default function PostDetailPage() {
                 ))
               ) : (
                 <div className="text-center py-8 text-gray-500 bg-gray-800/30 rounded-xl border border-gray-800">
-                  No comments yet. Be the first to share your thoughts!
+                  아직 댓글이 없어요. 첫 번째 댓글을 남겨보세요!
                 </div>
               )}
             </div>
