@@ -35,7 +35,7 @@ const translations = {
     store: "스토어",
     library: "라이브러리",
     community: "커뮤니티",
-    heroTitle: "일하는 척, 몰래 플레이",
+    heroTitle: "회사에서 몰래할 수 있는 게임 모음",
     heroDesc: "업무용 프로그램으로 위장한 게임 컬렉션. 들키지 않고 브라우저에서 바로 즐기세요.",
     featured: "추천 게임",
     all: "전체",
