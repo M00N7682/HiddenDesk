@@ -96,7 +96,7 @@ export default function PostDetailPage() {
           
           <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-400">
             <Link href="/" className="hover:text-white transition-colors">스토어</Link>
-            <Link href="#" className="hover:text-white transition-colors">라이브러리</Link>
+            <Link href="/leaderboard" className="hover:text-white transition-colors">리더보드</Link>
             <Link href="/community" className="text-white font-bold">커뮤니티</Link>
           </nav>
         </div>

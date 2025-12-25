@@ -2,6 +2,32 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 
+# Score/Leaderboard Schemas
+class ScoreBase(BaseModel):
+    game_id: str
+    player_name: str
+    score: int
+
+class ScoreCreate(ScoreBase):
+    pass
+
+class Score(ScoreBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class LeaderboardEntry(BaseModel):
+    rank: int
+    player_name: str
+    score: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+# Comment Schemas
 class CommentBase(BaseModel):
     author_name: str
     content: str

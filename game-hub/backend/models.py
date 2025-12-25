@@ -1,7 +1,21 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Index
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import database
+
+class Score(database.Base):
+    __tablename__ = "scores"
+
+    id = Column(Integer, primary_key=True, index=True)
+    game_id = Column(String(50), index=True, nullable=False)  # e.g., 'cell-invaders', 'neon-racer'
+    player_name = Column(String(50), nullable=False)
+    score = Column(Integer, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    # Composite index for faster leaderboard queries
+    __table_args__ = (
+        Index('idx_game_score', 'game_id', 'score'),
+    )
 
 class Post(database.Base):
     __tablename__ = "posts"

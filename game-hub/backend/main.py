@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 import models, database
-from routers import community
+from routers import community, leaderboard
 
 # Create DB tables
 database.Base.metadata.create_all(bind=database.engine)
@@ -12,6 +12,7 @@ app = FastAPI()
 
 # Include Routers
 app.include_router(community.router)
+app.include_router(leaderboard.router)
 
 # Enable CORS for frontend
 app.add_middleware(
