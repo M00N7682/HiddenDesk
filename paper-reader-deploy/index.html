@@ -33,14 +33,28 @@
                 <div id="game-ui" class="game-ui">
                     <div class="stats">
                         <div>Citations: <span id="score">0</span></div>
-                        <div>Impact Factor: <span id="health">10.0</span></div>
+                        <div>Length: <span id="health">3</span></div>
                     </div>
                     <div id="start-screen" class="overlay">
-                        <h1>Logic Link</h1>
-                        <p>Use Arrow Keys to guide the highlighter.</p>
-                        <p>Connect key terms (Blue) to build your argument.</p>
-                        <p>Avoid hitting margins or yourself.</p>
-                        <p>Press <strong>SPACE</strong> to Start</p>
+                        <h1>Paper Reader</h1>
+                        <p>Guide the highlighter through academic text.</p>
+                        <p>Collect citations (Blue) and avoid typos (Red).</p>
+                        <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                            <strong>Arrow Keys</strong> or <strong>WASD</strong> to move
+                        </p>
+
+                        <div class="mode-buttons">
+                            <button onclick="startGame('classic')">📖 Classic</button>
+                            <button onclick="startGame('timeattack')">⏱️ Time Attack</button>
+                            <button onclick="startGame('zen')">🧘 Zen Mode</button>
+                        </div>
+
+                        <div class="mode-desc">
+                            <p><strong>Classic:</strong> Standard mode with obstacles</p>
+                            <p><strong>Time Attack:</strong> 60 seconds, faster pace, 1.5x points</p>
+                            <p><strong>Zen:</strong> No obstacles, relaxing gameplay</p>
+                        </div>
+
                         <p class="stealth-hint">Press <strong>ESC</strong> for Stealth Mode</p>
                     </div>
                     <div id="game-over-screen" class="overlay hidden">
@@ -54,19 +68,37 @@
         </div>
     </div>
 
-    <!-- Stealth Overlay (Boring Abstract) -->
+    <!-- Stealth Overlay (Academic Abstract) -->
     <div id="stealth-overlay" class="stealth-overlay hidden">
         <div class="paper-sheet static-paper">
-            <h2>Abstract</h2>
+            <h2>A Comprehensive Analysis of Computational Methodologies in Modern Research Paradigms</h2>
+            <p class="authors">J. Smith<sup>1</sup>, M. Johnson<sup>2</sup>, R. Williams<sup>1,3</sup></p>
+            <p class="affiliations"><sup>1</sup>Department of Computer Science, University of Technology<br>
+            <sup>2</sup>Institute for Advanced Studies<br>
+            <sup>3</sup>Center for Computational Research</p>
+
+            <h3>Abstract</h3>
             <p class="abstract-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                This paper presents a systematic review of computational methodologies employed in contemporary research frameworks. We analyze n=847 peer-reviewed publications from 2019-2024, examining the correlation between algorithmic complexity (σ=0.05) and research outcome validity. Our findings indicate a statistically significant relationship (p<0.001, R²=0.87) between methodology selection and reproducibility metrics.
             </p>
             <p class="abstract-text">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                The empirical evidence suggests that hybrid approaches combining quantitative analysis with qualitative assessment yield superior results (95% CI: [0.72, 0.91]). Furthermore, we propose a novel framework for evaluating computational efficiency in large-scale data processing scenarios, demonstrating a 43% improvement over baseline methodologies (t-test, df=245, p<0.01).
             </p>
+
+            <h3>1. Introduction</h3>
+            <p class="abstract-text">
+                The proliferation of computational methods in academic research has necessitated rigorous evaluation frameworks. As noted by Chen et al. (2023), "the paradigm shift towards data-driven methodologies requires careful consideration of both theoretical foundations and practical implementation challenges" [1]. This observation aligns with the broader consensus in the field regarding the importance of methodological transparency.
+            </p>
+
             <div class="chart-placeholder">
-                [Figure 1: Statistical Analysis of Nothing]
+                [Figure 1: Distribution of computational methods across research domains (2019-2024)]
             </div>
+
+            <p class="references">
+                <strong>References</strong><br>
+                [1] Chen, L., Park, S., & Kumar, R. (2023). Journal of Computational Research, 45(2), 112-128.<br>
+                [2] Williams, R., & Thompson, K. (2022). Advances in Data Science, 12(4), 89-104.
+            </p>
         </div>
     </div>
 

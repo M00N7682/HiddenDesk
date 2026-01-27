@@ -180,3 +180,74 @@ button:hover {
     background-color: #f9f9f9;
     margin-top: 40px;
 }
+
+/* Mode Selection Buttons */
+.mode-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mode-buttons button {
+    padding: 12px 20px;
+    font-size: 14px;
+    background-color: #444;
+    border: 2px solid #666;
+    transition: all 0.2s;
+}
+
+.mode-buttons button:hover {
+    background-color: #555;
+    border-color: #888;
+    transform: translateY(-2px);
+}
+
+.mode-desc {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #777;
+    text-align: left;
+    max-width: 350px;
+}
+
+.mode-desc p {
+    margin: 4px 0;
+}
+
+/* Academic Paper Styles for Stealth */
+.static-paper h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.static-paper h3 {
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.authors {
+    text-align: center;
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+.affiliations {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.references {
+    font-size: 11px;
+    margin-top: 30px;
+    line-height: 1.6;
+    color: #444;
+}
