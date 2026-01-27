@@ -321,3 +321,100 @@ body {
     flex: 1;
     overflow: hidden;
 }
+
+/* Additional Toolbar Items */
+.moves-text, .score-text, .level-text {
+    font-size: 12px;
+    color: var(--text-main);
+}
+
+.score-text { color: #00ff00; }
+
+/* Hint Highlight */
+.cell.hint {
+    animation: hint-pulse 0.5s ease infinite;
+}
+
+@keyframes hint-pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(0, 122, 204, 0.8); }
+}
+
+/* Locked Tiles */
+.cell.locked {
+    cursor: default;
+    opacity: 0.8;
+}
+
+.cell.locked::after {
+    content: '✓';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 10px;
+    color: #00ff00;
+    z-index: 10;
+}
+
+.cell.locked:hover {
+    background-color: transparent;
+}
+
+/* Difficulty Selection */
+.difficulty-select {
+    margin-top: 15px;
+}
+
+.diff-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.diff-btn {
+    padding: 8px 16px;
+    background-color: var(--bg-header);
+    border: 2px solid var(--border);
+    color: var(--text-main);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.diff-btn:hover {
+    background-color: var(--border);
+}
+
+.diff-btn.selected {
+    border-color: var(--accent);
+    background-color: rgba(0, 122, 204, 0.2);
+}
+
+.diff-desc {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Controls Hint */
+.controls-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+}
+
+/* Score Details on Level Complete */
+.score-detail {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 5px 0;
+}
+
+.total-score {
+    font-size: 18px;
+    font-weight: bold;
+    color: #00ff00;
+    margin: 10px 0;
+}
