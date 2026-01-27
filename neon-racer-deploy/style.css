@@ -101,3 +101,27 @@ body {
     white-space: pre-wrap;
     font-family: 'Consolas', monospace;
 }
+
+/* Start screen styling */
+#start-screen {
+    color: #4af626;
+    line-height: 1.6;
+}
+
+#start-screen p {
+    margin: 2px 0;
+}
+
+/* Game over screen */
+#game-over-screen {
+    color: #ff3333;
+}
+
+#game-over-screen p {
+    margin: 5px 0;
+}
+
+/* Canvas colors for different elements */
+#game-canvas {
+    letter-spacing: 2px;
+}
