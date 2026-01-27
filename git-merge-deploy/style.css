@@ -158,6 +158,21 @@ body {
 .color-3 { background-color: #61afef; } /* Blue */
 .color-4 { background-color: #e5c07b; } /* Yellow */
 .color-5 { background-color: #c678dd; } /* Purple */
+.color-6 { background-color: #56b6c2; } /* Cyan */
+.color-7 { background-color: #d19a66; } /* Orange */
+
+/* Blocked cells (merge conflicts) */
+.cell.blocked {
+    background-color: #3a3a3a;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 5px,
+        #444 5px,
+        #444 10px
+    );
+    cursor: not-allowed;
+}
 
 .overlay {
     position: absolute;
@@ -218,4 +233,22 @@ button:hover {
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
+}
+
+.stealth-hint {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #666;
+}
+
+.game-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    color: #888;
 }
