@@ -72,27 +72,60 @@ export const CTAScene: React.FC = () => {
         </div>
       </div>
 
+      {/* ESC 기능 강조 */}
+      <div
+        style={{
+          position: "absolute",
+          top: 420,
+          opacity: urlOpacity,
+          display: "flex",
+          alignItems: "center",
+          gap: 15,
+          backgroundColor: "rgba(255,255,255,0.1)",
+          padding: "15px 30px",
+          borderRadius: 12,
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "#333",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: 8,
+            fontSize: 24,
+            fontFamily: "monospace",
+            border: "2px solid #555",
+            boxShadow: "0 4px 0 #222",
+          }}
+        >
+          ESC
+        </div>
+        <div style={{ color: "white", fontSize: 28 }}>
+          누르면 진짜 업무화면으로 변신!
+        </div>
+      </div>
+
       {/* URL */}
       <div
         style={{
           position: "absolute",
-          bottom: 150,
+          bottom: 120,
           opacity: urlOpacity,
           textAlign: "center",
         }}
       >
         <div
           style={{
-            fontSize: 48,
+            fontSize: 36,
             color: "white",
             fontFamily: "monospace",
             backgroundColor: "rgba(0,255,136,0.2)",
-            padding: "20px 50px",
+            padding: "18px 40px",
             borderRadius: 15,
             border: "2px solid #00ff88",
           }}
         >
-          hiddendesk.io
+          hiddendesk.ddstudio.co.kr
         </div>
         <div
           style={{

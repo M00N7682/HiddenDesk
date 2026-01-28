@@ -384,7 +384,218 @@ const QuickShowcase: React.FC = () => {
   );
 };
 
-// Scene 4: CTA
+// Scene 4: ESC Feature Demo
+const EscFeatureScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const escPressFrame = fps * 1;
+  const isAfterEsc = frame > escPressFrame;
+  const transitionProgress = interpolate(
+    frame,
+    [escPressFrame, escPressFrame + 8],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+
+  const escKeyScale = frame > escPressFrame - 3 && frame < escPressFrame + 3 ? 1.3 : 1;
+
+  return (
+    <AbsoluteFill
+      style={{
+        background: "linear-gradient(180deg, #0f0f1a 0%, #1a0a2e 100%)",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 40,
+      }}
+    >
+      {/* 상단 텍스트 */}
+      <div
+        style={{
+          position: "absolute",
+          top: 80,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 28, color: "#888", marginBottom: 10 }}>
+          상사가 다가오면?
+        </div>
+        <div style={{ fontSize: 42, color: "white", fontWeight: "bold" }}>
+          <span style={{ color: "#00ff88" }}>ESC</span> 한 번이면 끝
+        </div>
+      </div>
+
+      {/* 게임 화면 */}
+      <div
+        style={{
+          width: 320,
+          height: 450,
+          borderRadius: 20,
+          overflow: "hidden",
+          border: "4px solid #333",
+          position: "relative",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+        }}
+      >
+        {/* 게임 중 */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#217346",
+            opacity: 1 - transitionProgress,
+          }}
+        >
+          <div style={{ height: 35, backgroundColor: "#185c37", display: "flex", alignItems: "center", padding: "0 10px" }}>
+            <span style={{ color: "white", fontSize: 12 }}>Cell Invaders</span>
+          </div>
+          <div style={{ backgroundColor: "white", height: "calc(100% - 35px)", position: "relative" }}>
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} style={{ display: "flex" }}>
+                {Array.from({ length: 5 }).map((_, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      width: 60,
+                      height: 30,
+                      border: "1px solid #e8e8e8",
+                      fontSize: 10,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: (i < 4 && j % 2 === 0) ? "#cc0000" : "#333",
+                      backgroundColor: (i < 4 && j % 2 === 0) ? "#ffcccc" : "white",
+                    }}
+                  >
+                    {(i < 4 && j % 2 === 0) ? "#ERR!" : ""}
+                  </div>
+                ))}
+              </div>
+            ))}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 30,
+                left: 130 + Math.sin(frame * 0.2) * 40,
+                width: 55,
+                height: 28,
+                backgroundColor: "rgba(255,255,0,0.8)",
+                border: "2px solid #d4a017",
+                fontSize: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              =SUM()
+            </div>
+          </div>
+        </div>
+
+        {/* 업무 화면 */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#217346",
+            opacity: transitionProgress,
+          }}
+        >
+          <div style={{ height: 35, backgroundColor: "#185c37", display: "flex", alignItems: "center", padding: "0 10px" }}>
+            <span style={{ color: "white", fontSize: 12 }}>분기별 실적.xlsx</span>
+          </div>
+          <div style={{ backgroundColor: "white", height: "calc(100% - 35px)", padding: 8 }}>
+            {[
+              ["항목", "Q1", "Q2", "Q3", "Q4"],
+              ["매출", "12.5M", "15.8M", "18.2M", "22.1M"],
+              ["비용", "8.2M", "9.1M", "10.5M", "12.3M"],
+              ["이익", "4.3M", "6.7M", "7.7M", "9.8M"],
+              ["성장률", "-", "+28%", "+15%", "+27%"],
+              ["", "", "", "", ""],
+              ["총계", "", "", "", "68.6M"],
+            ].map((row, i) => (
+              <div key={i} style={{ display: "flex" }}>
+                {row.map((cell, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      width: 60,
+                      height: 30,
+                      border: "1px solid #e0e0e0",
+                      fontSize: 10,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: (i === 0 || j === 0) ? "bold" : "normal",
+                      backgroundColor: i === 0 ? "#e8f0e8" : "white",
+                      color: cell.includes("+") ? "#217346" : "#333",
+                    }}
+                  >
+                    {cell}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 플래시 */}
+        {frame > escPressFrame - 2 && frame < escPressFrame + 4 && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "white",
+              opacity: interpolate(frame, [escPressFrame, escPressFrame + 4], [0.9, 0]),
+            }}
+          />
+        )}
+      </div>
+
+      {/* ESC 키 */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 120,
+          display: "flex",
+          alignItems: "center",
+          gap: 15,
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "#333",
+            color: "white",
+            padding: "10px 20px",
+            borderRadius: 10,
+            fontSize: 24,
+            fontFamily: "monospace",
+            border: "3px solid #555",
+            boxShadow: "0 5px 0 #222",
+            transform: `scale(${escKeyScale})`,
+          }}
+        >
+          ESC
+        </div>
+        <div style={{ fontSize: 32, color: "#00ff88" }}>→</div>
+        <div style={{ fontSize: 24, color: "white" }}>
+          {isAfterEsc ? "완벽한 위장! 😎" : "게임 중..."}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// Scene 5: CTA
 const CTAShort: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -396,6 +607,7 @@ const CTAShort: React.FC = () => {
   });
 
   const pulse = 1 + Math.sin(frame * 0.2) * 0.05;
+  const escKeyBounce = 1 + Math.sin(frame * 0.3) * 0.08;
 
   return (
     <AbsoluteFill
@@ -419,7 +631,7 @@ const CTAShort: React.FC = () => {
       <div style={{ textAlign: "center", transform: `scale(${scale})`, padding: 40 }}>
         <div
           style={{
-            fontSize: 64,
+            fontSize: 56,
             fontWeight: "bold",
             background: "linear-gradient(135deg, #00ff88, #00ccff)",
             WebkitBackgroundClip: "text",
@@ -431,35 +643,68 @@ const CTAShort: React.FC = () => {
         </div>
         <div
           style={{
-            fontSize: 24,
+            fontSize: 20,
             color: "#888",
             marginTop: 10,
-            marginBottom: 60,
+            marginBottom: 30,
           }}
         >
           회사에서 몰래 즐기는 게임
         </div>
 
+        {/* ESC 기능 강조 */}
         <div
           style={{
-            fontSize: 32,
-            color: "white",
-            backgroundColor: "rgba(0,255,136,0.2)",
-            padding: "18px 40px",
-            borderRadius: 20,
-            border: "2px solid #00ff88",
-            transform: `scale(${pulse})`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 12,
             marginBottom: 30,
+            backgroundColor: "rgba(255,255,255,0.1)",
+            padding: "12px 20px",
+            borderRadius: 12,
           }}
         >
-          hiddendesk.io
+          <div
+            style={{
+              backgroundColor: "#333",
+              color: "white",
+              padding: "6px 14px",
+              borderRadius: 6,
+              fontSize: 18,
+              fontFamily: "monospace",
+              border: "2px solid #555",
+              boxShadow: "0 3px 0 #222",
+              transform: `scale(${escKeyBounce})`,
+            }}
+          >
+            ESC
+          </div>
+          <div style={{ color: "white", fontSize: 18 }}>
+            → 진짜 업무화면으로!
+          </div>
         </div>
 
         <div
           style={{
-            fontSize: 22,
+            fontSize: 24,
+            color: "white",
+            backgroundColor: "rgba(0,255,136,0.2)",
+            padding: "14px 30px",
+            borderRadius: 15,
+            border: "2px solid #00ff88",
+            transform: `scale(${pulse})`,
+            marginBottom: 20,
+          }}
+        >
+          hiddendesk.ddstudio.co.kr
+        </div>
+
+        <div
+          style={{
+            fontSize: 18,
             color: "#00ff88",
-            marginTop: 20,
+            marginTop: 15,
           }}
         >
           👆 바이오 링크 클릭
@@ -474,19 +719,24 @@ export const ShortPromo: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      {/* Hook with gameplay - 0~3초 */}
-      <Sequence from={0} durationInFrames={3 * fps}>
+      {/* Hook with gameplay - 0~2.5초 */}
+      <Sequence from={0} durationInFrames={Math.floor(2.5 * fps)}>
         <HookScene />
       </Sequence>
 
-      {/* Reveal - 3~5초 */}
-      <Sequence from={3 * fps} durationInFrames={2 * fps}>
+      {/* Reveal - 2.5~4초 */}
+      <Sequence from={Math.floor(2.5 * fps)} durationInFrames={Math.floor(1.5 * fps)}>
         <RevealShort />
       </Sequence>
 
-      {/* Quick Showcase - 5~11초 */}
-      <Sequence from={5 * fps} durationInFrames={6 * fps}>
+      {/* Quick Showcase - 4~8초 */}
+      <Sequence from={4 * fps} durationInFrames={4 * fps}>
         <QuickShowcase />
+      </Sequence>
+
+      {/* ESC Feature - 8~11초 */}
+      <Sequence from={8 * fps} durationInFrames={3 * fps}>
+        <EscFeatureScene />
       </Sequence>
 
       {/* CTA - 11~15초 */}
