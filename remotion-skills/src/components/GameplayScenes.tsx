@@ -669,209 +669,159 @@ export const CodeDashGameplay: React.FC = () => {
 };
 
 // ============================================
-// NEON RACER - 진짜 터미널처럼
+// NEON RACER - 실제 게임과 동일 (System Diagnostics Tool)
 // ============================================
 export const NeonRacerGameplay: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const playerLane = Math.floor(2 + Math.sin(frame * 0.12) * 1.8);
-  const score = Math.floor(frame * 15);
-  const speed = 120 + Math.floor(Math.sin(frame * 0.05) * 20);
-  const hp = Math.max(60, 100 - Math.floor(frame * 0.1) % 40);
+  const playerLane = Math.floor(2 + Math.sin(frame * 0.12) * 1.5);
+  const score = Math.floor(frame * 12);
+  const health = Math.max(50, 100 - Math.floor(frame * 0.15) % 50);
 
-  // 장애물
+  // 장애물 (Firewall #)
   const obstacles = [
-    { lane: 0, y: (frame * 12) % 380 },
-    { lane: 3, y: ((frame * 12) + 120) % 380 },
-    { lane: 4, y: ((frame * 12) + 200) % 380 },
-    { lane: 1, y: ((frame * 12) + 280) % 380 },
-    { lane: 2, y: ((frame * 12) + 350) % 380 },
+    { lane: 0, y: (frame * 10) % 320 },
+    { lane: 2, y: ((frame * 10) + 100) % 320 },
+    { lane: 3, y: ((frame * 10) + 180) % 320 },
+    { lane: 1, y: ((frame * 10) + 260) % 320 },
   ];
 
   // 아이템
   const items = [
-    { lane: 3, y: ((frame * 12) + 80) % 380, type: "coin" },
-    { lane: 1, y: ((frame * 12) + 180) % 380, type: "boost" },
-    { lane: 4, y: ((frame * 12) + 300) % 380, type: "coin" },
+    { lane: 3, y: ((frame * 10) + 50) % 320, type: "$" },
+    { lane: 1, y: ((frame * 10) + 150) % 320, type: ">" },
+    { lane: 0, y: ((frame * 10) + 220) % 320, type: "$" },
   ];
 
-  const hpBars = Math.floor(hp / 10);
+  // ASCII 게임 화면 생성
+  const roadWidth = 5;
+  const roadHeight = 15;
 
   return (
-    <div style={{ width: "100%", height: "100%", backgroundColor: "#1a1a2e", fontFamily: "'SF Mono', 'Fira Code', Consolas, monospace", color: "#eee" }}>
-      {/* Terminal Header - macOS style */}
-      <div style={{ height: 32, background: "linear-gradient(180deg, #3d3d3d 0%, #2a2a2a 100%)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", borderBottom: "1px solid #000" }}>
-        <div style={{ position: "absolute", left: 12, display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "linear-gradient(180deg, #ff6058 0%, #e04040 100%)", border: "1px solid #cf4c44" }} />
-          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "linear-gradient(180deg, #ffbd2e 0%, #dea023 100%)", border: "1px solid #c69322" }} />
-          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "linear-gradient(180deg, #27c940 0%, #1db233 100%)", border: "1px solid #14a126" }} />
-        </div>
-        <span style={{ fontSize: 13, color: "#a0a0a0", fontWeight: 500 }}>bash — 80×24</span>
-      </div>
-
-      <div style={{ padding: "15px 20px", backgroundColor: "#0d0d1a" }}>
-        {/* 이전 명령어들 */}
-        <div style={{ marginBottom: 8, opacity: 0.5, fontSize: 13 }}>
-          <span style={{ color: "#50fa7b" }}>➜</span> <span style={{ color: "#8be9fd" }}>~</span> <span style={{ color: "#f8f8f2" }}>cd games && ls</span>
-        </div>
-        <div style={{ marginBottom: 8, opacity: 0.5, fontSize: 13, color: "#6272a4" }}>
-          neon-racer.sh  readme.txt  scores.db
+    <div style={{ width: "100%", height: "100%", backgroundColor: "#0c0c0c", fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace", color: "#ccc", display: "flex", justifyContent: "center", alignItems: "center", padding: 20 }}>
+      <div style={{
+        width: "100%",
+        maxWidth: 700,
+        height: "90%",
+        border: "1px solid #333",
+        backgroundColor: "#000",
+        padding: 10,
+        boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        flexDirection: "column",
+      }}>
+        {/* Header - 실제 게임과 동일 */}
+        <div style={{ borderBottom: "1px solid #333", paddingBottom: 10, marginBottom: 10, color: "#fff" }}>
+          <span style={{ color: "#4af626", marginRight: 10 }}>admin@sys-diag:~$</span>
+          <span>./run_network_test.sh --speed-mode</span>
         </div>
 
-        {/* 현재 명령어 */}
-        <div style={{ marginBottom: 15, fontSize: 13 }}>
-          <span style={{ color: "#50fa7b" }}>➜</span> <span style={{ color: "#8be9fd" }}>~/games</span> <span style={{ color: "#f8f8f2" }}>./neon-racer.sh --mode=turbo</span>
-        </div>
+        {/* Game Area */}
+        <div style={{ flexGrow: 1, position: "relative", fontSize: 16, lineHeight: 1.2 }}>
+          {/* HUD - 실제 게임과 동일 */}
+          <div style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            background: "#000",
+            padding: 5,
+            border: "1px solid #333",
+            fontSize: 14,
+            color: "#ccc",
+          }}>
+            <span>BANDWIDTH: <span style={{ color: "#4af626" }}>{score}</span> Mbps</span> |{" "}
+            <span>INTEGRITY: <span style={{ color: health > 50 ? "#4af626" : health > 25 ? "#ffcc00" : "#ff3333" }}>{health}</span>%</span>
+          </div>
 
-        {/* 게임 시작 메시지 */}
-        <div style={{ marginBottom: 5, fontSize: 12, color: "#ff79c6" }}>
-          ╔══════════════════════════════════════════════════════════════╗
-        </div>
-        <div style={{ marginBottom: 5, fontSize: 12, color: "#ff79c6", textAlign: "center" }}>
-          ║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N E O N&nbsp;&nbsp;R A C E R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;║
-        </div>
-        <div style={{ marginBottom: 10, fontSize: 12, color: "#ff79c6" }}>
-          ╚══════════════════════════════════════════════════════════════╝
-        </div>
+          {/* 게임 캔버스 영역 */}
+          <div style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "#4af626",
+            fontWeight: "bold",
+            whiteSpace: "pre",
+            letterSpacing: 2,
+            fontSize: 14,
+            lineHeight: 1.3,
+          }}>
+            {/* ASCII 도로 렌더링 */}
+            {Array.from({ length: roadHeight }).map((_, row) => {
+              let line = "|";
+              for (let col = 0; col < roadWidth; col++) {
+                const y = row * (320 / roadHeight);
 
-        {/* Game Stats - 터미널 스타일 */}
-        <div style={{ marginBottom: 8, fontSize: 13, display: "flex", gap: 40 }}>
-          <span><span style={{ color: "#50fa7b" }}>SCORE:</span> <span style={{ color: "#f1fa8c" }}>{score.toString().padStart(8, "0")}</span></span>
-          <span><span style={{ color: "#50fa7b" }}>SPEED:</span> <span style={{ color: "#ff5555" }}>{speed} km/h</span></span>
-          <span>
-            <span style={{ color: "#50fa7b" }}>HP:</span>{" "}
-            <span style={{ color: hp > 50 ? "#50fa7b" : hp > 25 ? "#f1fa8c" : "#ff5555" }}>
-              {"█".repeat(hpBars)}{"░".repeat(10 - hpBars)}
-            </span>
-            <span style={{ color: "#6272a4" }}> {hp}%</span>
-          </span>
-        </div>
+                // 장애물 체크
+                const hasObstacle = obstacles.some(o =>
+                  o.lane === col && Math.abs(o.y - y) < 20
+                );
 
-        {/* Game Area - ASCII 스타일 */}
-        <div style={{
-          border: "1px solid #44475a",
-          padding: "5px 10px",
-          height: 320,
-          position: "relative",
-          backgroundColor: "#0a0a15",
-          borderRadius: 4,
-          overflow: "hidden",
-        }}>
-          {/* 도로 */}
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", transform: "translateX(-50%)", width: 280 }}>
-            {/* 외곽선 */}
-            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, backgroundColor: "#bd93f9", boxShadow: "0 0 15px #bd93f9" }} />
-            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 3, backgroundColor: "#bd93f9", boxShadow: "0 0 15px #bd93f9" }} />
+                // 아이템 체크
+                const item = items.find(i =>
+                  i.lane === col && Math.abs(i.y - y) < 20
+                );
 
-            {/* 중앙선 애니메이션 */}
-            {Array.from({ length: 15 }).map((_, i) => (
-              <div
-                key={`center${i}`}
-                style={{
-                  position: "absolute",
-                  left: 138,
-                  top: ((i * 25 + frame * 10) % 350) - 20,
-                  width: 4,
-                  height: 12,
-                  backgroundColor: "#f1fa8c",
-                  boxShadow: "0 0 8px #f1fa8c",
-                }}
-              />
-            ))}
+                // 플레이어 체크 (맨 아래쪽)
+                const isPlayer = row === roadHeight - 1 && col === playerLane;
 
-            {/* 레인 구분선 */}
-            {Array.from({ length: 15 }).map((_, i) => (
-              <div
-                key={`lane1_${i}`}
-                style={{
-                  position: "absolute",
-                  left: 55,
-                  top: ((i * 25 + frame * 10) % 350) - 20,
-                  width: 2,
-                  height: 8,
-                  backgroundColor: "#6272a4",
-                }}
-              />
-            ))}
-            {Array.from({ length: 15 }).map((_, i) => (
-              <div
-                key={`lane2_${i}`}
-                style={{
-                  position: "absolute",
-                  left: 222,
-                  top: ((i * 25 + frame * 10) % 350) - 20,
-                  width: 2,
-                  height: 8,
-                  backgroundColor: "#6272a4",
-                }}
-              />
-            ))}
+                if (isPlayer) {
+                  line += " @ ";
+                } else if (hasObstacle) {
+                  line += " # ";
+                } else if (item) {
+                  line += ` ${item.type} `;
+                } else {
+                  // 도로 점선
+                  const showDash = (row + Math.floor(frame / 3)) % 3 === 0 && (col === 1 || col === 3);
+                  line += showDash ? " - " : "   ";
+                }
+              }
+              line += "|";
+              return (
+                <div key={row} style={{
+                  color: row === roadHeight - 1 ? "#4af626" : "#4af626",
+                }}>
+                  {line.split("").map((char, i) => {
+                    let color = "#4af626";
+                    if (char === "#") color = "#ff3333";
+                    else if (char === "$") color = "#ffcc00";
+                    else if (char === ">") color = "#00ccff";
+                    else if (char === "!") color = "#ff9900";
+                    else if (char === "@") color = "#4af626";
+                    else if (char === "|") color = "#666";
 
-            {/* 장애물 - ASCII 스타일 */}
-            {obstacles.map((obs, i) => (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  left: obs.lane * 55 + 15,
-                  top: obs.y,
-                  color: "#ff5555",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  textShadow: "0 0 10px #ff5555",
-                  whiteSpace: "pre",
-                }}
-              >
-                {"[X]"}
-              </div>
-            ))}
+                    return (
+                      <span key={i} style={{
+                        color,
+                        textShadow: (char === "@" || char === "$" || char === ">") ? `0 0 8px ${color}` : "none",
+                      }}>
+                        {char}
+                      </span>
+                    );
+                  })}
+                </div>
+              );
+            })}
 
-            {/* 아이템 */}
-            {items.map((item, i) => (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  left: item.lane * 55 + 18,
-                  top: item.y,
-                  color: item.type === "coin" ? "#f1fa8c" : "#8be9fd",
-                  fontSize: 14,
-                  textShadow: `0 0 10px ${item.type === "coin" ? "#f1fa8c" : "#8be9fd"}`,
-                }}
-              >
-                {item.type === "coin" ? "◆" : "»»"}
-              </div>
-            ))}
-
-            {/* 플레이어 - ASCII 차 */}
-            <div
-              style={{
-                position: "absolute",
-                left: playerLane * 55 + 5,
-                bottom: 15,
-                color: "#50fa7b",
-                fontSize: 11,
-                textShadow: "0 0 15px #50fa7b",
-                whiteSpace: "pre",
-                lineHeight: 1.1,
-              }}
-            >
-              {"  ╱▔▔╲\n"}
-              {"╔═╧══╧═╗\n"}
-              {"║ ▓▓▓▓ ║\n"}
-              {"║ ▓▓▓▓ ║\n"}
-              {"╚╦════╦╝\n"}
-              {" ╰────╯"}
+            {/* 범례 */}
+            <div style={{ marginTop: 20, fontSize: 12, color: "#666", fontWeight: "normal" }}>
+              <div>[<span style={{ color: "#ff3333" }}>#</span>] Firewall  [<span style={{ color: "#ffcc00" }}>$</span>] Data Packet  [<span style={{ color: "#00ccff" }}>&gt;</span>] Boost</div>
             </div>
           </div>
-        </div>
 
-        {/* Controls */}
-        <div style={{ marginTop: 10, fontSize: 12, color: "#6272a4", display: "flex", gap: 20 }}>
-          <span><span style={{ color: "#8be9fd" }}>[←/→]</span> Move</span>
-          <span><span style={{ color: "#8be9fd" }}>[SPACE]</span> Nitro</span>
-          <span><span style={{ color: "#8be9fd" }}>[ESC]</span> Pause</span>
-          <span style={{ marginLeft: "auto", color: "#44475a" }}>Press Ctrl+C to quit</span>
+          {/* 시작 화면 정보 (반투명 오버레이) */}
+          <div style={{
+            position: "absolute",
+            bottom: 10,
+            left: 10,
+            color: "#4af626",
+            fontSize: 12,
+            opacity: 0.7,
+          }}>
+            <div>NETWORK LATENCY TEST v3.0.0</div>
+            <div style={{ color: "#888" }}>[CONTROLS] ←/→ arrows | [STEALTH] Press ESC</div>
+          </div>
         </div>
       </div>
     </div>
@@ -879,214 +829,183 @@ export const NeonRacerGameplay: React.FC = () => {
 };
 
 // ============================================
-// GIT MERGE - Git 클라이언트처럼 (GitHub Desktop 스타일)
+// GIT MERGE - 실제 게임과 동일 (그리드 퍼즐)
 // ============================================
 export const GitMergeGameplay: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Git 커밋 그래프 노드
-  const commits = [
-    { id: "abc1234", branch: "main", x: 100, y: 60, message: "Initial commit", author: "dev", time: "2 days ago" },
-    { id: "def5678", branch: "main", x: 100, y: 120, message: "Add login feature", author: "dev", time: "1 day ago" },
-    { id: "ghi9012", branch: "feature", x: 200, y: 150, message: "Start payment module", author: "alice", time: "1 day ago" },
-    { id: "jkl3456", branch: "feature", x: 200, y: 210, message: "Add PayPal integration", author: "alice", time: "20 hours ago" },
-    { id: "mno7890", branch: "main", x: 100, y: 180, message: "Fix security issue", author: "bob", time: "18 hours ago" },
-    { id: "pqr1234", branch: "hotfix", x: 300, y: 200, message: "Emergency fix", author: "dev", time: "15 hours ago" },
-    { id: "stu5678", branch: "main", x: 100, y: 240, message: "Merge feature branch", author: "dev", time: "10 hours ago" },
-    { id: "vwx9012", branch: "main", x: 100, y: 300, message: "Release v2.0", author: "dev", time: "5 hours ago" },
+  // 그리드 크기
+  const gridSize = 5;
+  const cellSize = 60;
+
+  // 노드 색상
+  const colors = {
+    1: "#e06c75", // Red
+    2: "#98c379", // Green
+    3: "#61afef", // Blue
+    4: "#e5c07b", // Yellow
+    5: "#c678dd", // Purple
+  };
+
+  // 노드 위치 (시작점과 끝점 쌍)
+  const nodes = [
+    { row: 0, col: 0, color: 1, id: "1a" },
+    { row: 4, col: 4, color: 1, id: "1b" },
+    { row: 0, col: 4, color: 2, id: "2a" },
+    { row: 4, col: 0, color: 2, id: "2b" },
+    { row: 2, col: 0, color: 3, id: "3a" },
+    { row: 2, col: 4, color: 3, id: "3b" },
   ];
 
-  // 연결선 - 프레임에 따라 나타남
-  const connections = [
-    { from: 0, to: 1, color: "#6e7681" },
-    { from: 1, to: 2, color: "#3fb950" },
-    { from: 2, to: 3, color: "#3fb950" },
-    { from: 1, to: 4, color: "#6e7681" },
-    { from: 4, to: 5, color: "#f78166" },
-    { from: 3, to: 6, color: "#3fb950" },
-    { from: 4, to: 6, color: "#6e7681" },
-    { from: 5, to: 6, color: "#f78166" },
-    { from: 6, to: 7, color: "#6e7681" },
+  // 경로 애니메이션 (프레임에 따라 그려짐)
+  const paths = [
+    // 빨간색 경로 (대각선)
+    { cells: [[0,0], [0,1], [1,1], [1,2], [2,2], [2,3], [3,3], [3,4], [4,4]], color: 1 },
+    // 녹색 경로
+    { cells: [[0,4], [1,4], [1,3], [2,3], [3,3], [4,3], [4,2], [4,1], [4,0]], color: 2 },
+    // 파란색 경로
+    { cells: [[2,0], [2,1], [3,1], [3,2], [2,2], [1,2], [0,2], [0,3], [1,3], [1,4], [2,4]], color: 3 },
   ];
 
-  const activeConnections = connections.filter((_, i) => frame > i * 8);
-  const mergeProgress = Math.min(100, Math.floor(frame * 1.2));
-  const conflictsResolved = Math.floor(frame / 20);
+  const moves = Math.floor(frame / 5);
+  const progress = Math.min(100, Math.floor(frame * 1.5));
+  const level = 3;
+
+  // 현재 그려진 경로 계산
+  const drawnCells: { [key: string]: number } = {};
+  paths.forEach((path, pathIndex) => {
+    const cellsToShow = Math.min(path.cells.length, Math.floor((frame - pathIndex * 20) / 3));
+    for (let i = 0; i < cellsToShow; i++) {
+      const [row, col] = path.cells[i];
+      drawnCells[`${row}-${col}`] = path.color;
+    }
+  });
 
   return (
-    <div style={{ width: "100%", height: "100%", backgroundColor: "#0d1117", fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", color: "#c9d1d9", display: "flex" }}>
-      {/* Sidebar - GitHub Desktop 스타일 */}
-      <div style={{ width: 250, backgroundColor: "#161b22", borderRight: "1px solid #30363d", display: "flex", flexDirection: "column" }}>
-        {/* Repository Header */}
-        <div style={{ padding: "12px 16px", borderBottom: "1px solid #30363d" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 16 }}>📁</span>
-            <div>
-              <div style={{ fontWeight: 600, fontSize: 14 }}>hidden-desk</div>
-              <div style={{ fontSize: 11, color: "#8b949e" }}>~/projects/hidden-desk</div>
-            </div>
+    <div style={{ width: "100%", height: "100%", backgroundColor: "#1e1e1e", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: "#ccc", display: "flex" }}>
+      {/* Sidebar - 실제 게임과 동일 */}
+      <div style={{ width: 250, backgroundColor: "#252526", borderRight: "1px solid #333", display: "flex", flexDirection: "column" }}>
+        {[
+          { icon: "⟨/⟩", label: "Source Control", active: true },
+          { icon: "⏱", label: "History", active: false },
+          { icon: "⇄", label: "Remotes", active: false },
+        ].map((item, i) => (
+          <div
+            key={i}
+            style={{
+              padding: "10px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 14,
+              backgroundColor: item.active ? "#37373d" : "transparent",
+              color: item.active ? "white" : "#ccc",
+              cursor: "pointer",
+            }}
+          >
+            <span style={{ width: 20 }}>{item.icon}</span>
+            {item.label}
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Branch Info */}
-        <div style={{ padding: "12px 16px", borderBottom: "1px solid #30363d" }}>
-          <div style={{ fontSize: 11, color: "#8b949e", marginBottom: 8 }}>Current Branch</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 10px", backgroundColor: "#21262d", borderRadius: 6, border: "1px solid #30363d" }}>
-            <span style={{ color: "#3fb950" }}>⎇</span>
-            <span style={{ fontWeight: 500, fontSize: 13 }}>main</span>
-            <span style={{ marginLeft: "auto", fontSize: 11, color: "#8b949e" }}>↑2 ↓0</span>
-          </div>
-        </div>
-
-        {/* Changes */}
-        <div style={{ padding: "12px 16px", flex: 1 }}>
-          <div style={{ fontSize: 11, color: "#8b949e", marginBottom: 8 }}>Changes</div>
-          {[
-            { file: "payment.ts", status: "M", color: "#d29922" },
-            { file: "auth.ts", status: "M", color: "#d29922" },
-            { file: "api.ts", status: "A", color: "#3fb950" },
-          ].map((change, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 8px", fontSize: 12, borderRadius: 4, marginBottom: 2, backgroundColor: frame % 60 < 30 && i === 0 ? "#1f6feb33" : "transparent" }}>
-              <span style={{ color: change.color, fontWeight: "bold", fontSize: 10, width: 14 }}>{change.status}</span>
-              <span style={{ color: "#c9d1d9" }}>{change.file}</span>
-            </div>
+      {/* Main Content */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        {/* Toolbar - 실제 게임과 동일 */}
+        <div style={{ height: 40, backgroundColor: "#2d2d2d", display: "flex", alignItems: "center", padding: "0 20px", gap: 15, borderBottom: "1px solid #333" }}>
+          <span style={{ fontWeight: "bold", color: "#fff", marginRight: 20 }}>main</span>
+          {["Fetch", "Pull", "Push"].map((btn) => (
+            <span
+              key={btn}
+              style={{
+                fontSize: 12,
+                padding: "4px 8px",
+                backgroundColor: "#0e639c",
+                color: "white",
+                borderRadius: 2,
+                cursor: "pointer",
+              }}
+            >
+              {btn}
+            </span>
           ))}
         </div>
 
-        {/* Commit Button */}
-        <div style={{ padding: "12px 16px", borderTop: "1px solid #30363d" }}>
-          <button style={{
-            width: "100%",
-            padding: "8px 16px",
-            backgroundColor: "#238636",
-            color: "white",
-            border: "none",
-            borderRadius: 6,
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: "pointer",
-          }}>
-            Commit to main
-          </button>
-        </div>
-      </div>
-
-      {/* Main Area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        {/* Toolbar */}
-        <div style={{ height: 48, backgroundColor: "#161b22", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, borderBottom: "1px solid #30363d" }}>
-          <button style={{ padding: "5px 12px", backgroundColor: "#21262d", color: "#c9d1d9", border: "1px solid #30363d", borderRadius: 6, fontSize: 12, display: "flex", alignItems: "center", gap: 6 }}>
-            <span>🔄</span> Fetch origin
-          </button>
-          <button style={{ padding: "5px 12px", backgroundColor: "#21262d", color: "#c9d1d9", border: "1px solid #30363d", borderRadius: 6, fontSize: 12 }}>
-            ⬇️ Pull
-          </button>
-          <button style={{ padding: "5px 12px", backgroundColor: "#21262d", color: "#c9d1d9", border: "1px solid #30363d", borderRadius: 6, fontSize: 12 }}>
-            ⬆️ Push
-          </button>
-          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 12, color: "#8b949e" }}>Merge Progress:</span>
-            <div style={{ width: 100, height: 6, backgroundColor: "#21262d", borderRadius: 3, overflow: "hidden" }}>
-              <div style={{ width: `${mergeProgress}%`, height: "100%", backgroundColor: "#3fb950", transition: "width 0.3s" }} />
+        {/* Game Area */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", backgroundColor: "#1e1e1e" }}>
+          {/* Game Header */}
+          <div style={{ width: gridSize * cellSize + 20, display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <h2 style={{ margin: 0, fontSize: 18, color: "#fff" }}>
+              Merge Conflicts: <span style={{ color: "#61afef" }}>{level}</span>
+            </h2>
+            <div style={{ display: "flex", gap: 15, fontSize: 14, color: "#888" }}>
+              <span>Moves: <span style={{ color: "#ccc" }}>{moves}</span></span>
+              <span>Solved: <span style={{ color: "#98c379" }}>{progress}%</span></span>
             </div>
-            <span style={{ fontSize: 12, color: "#3fb950" }}>{mergeProgress}%</span>
           </div>
-        </div>
 
-        {/* History Tab */}
-        <div style={{ display: "flex", borderBottom: "1px solid #30363d", backgroundColor: "#0d1117" }}>
-          <div style={{ padding: "10px 16px", fontSize: 13, color: "#c9d1d9", borderBottom: "2px solid #f78166" }}>History</div>
-          <div style={{ padding: "10px 16px", fontSize: 13, color: "#8b949e" }}>Changes</div>
-        </div>
+          {/* Grid Container */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${gridSize}, ${cellSize}px)`,
+            backgroundColor: "#2d2d2d",
+            padding: 10,
+            borderRadius: 4,
+            gap: 2,
+          }}>
+            {Array.from({ length: gridSize * gridSize }).map((_, index) => {
+              const row = Math.floor(index / gridSize);
+              const col = index % gridSize;
+              const cellKey = `${row}-${col}`;
+              const pathColor = drawnCells[cellKey];
+              const node = nodes.find(n => n.row === row && n.col === col);
 
-        {/* Git Graph */}
-        <div style={{ flex: 1, padding: 20, position: "relative", overflow: "hidden" }}>
-          {/* SVG for connections */}
-          <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
-            {activeConnections.map((conn, i) => {
-              const from = commits[conn.from];
-              const to = commits[conn.to];
               return (
-                <path
-                  key={i}
-                  d={`M ${from.x + 8} ${from.y + 20} Q ${(from.x + to.x) / 2 + 8} ${(from.y + to.y) / 2 + 20} ${to.x + 8} ${to.y}`}
-                  fill="none"
-                  stroke={conn.color}
-                  strokeWidth={2}
-                  style={{ filter: `drop-shadow(0 0 3px ${conn.color})` }}
-                />
+                <div
+                  key={index}
+                  style={{
+                    width: cellSize,
+                    height: cellSize,
+                    backgroundColor: pathColor ? colors[pathColor as keyof typeof colors] : "#1e1e1e",
+                    borderRadius: 4,
+                    position: "relative",
+                    transition: "background-color 0.2s",
+                  }}
+                >
+                  {/* 노드 (커밋 점) */}
+                  {node && (
+                    <div
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: "50%",
+                        backgroundColor: colors[node.color as keyof typeof colors],
+                        position: "absolute",
+                        top: 10,
+                        left: 10,
+                        boxShadow: `0 2px 5px rgba(0,0,0,0.5), 0 0 10px ${colors[node.color as keyof typeof colors]}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 16,
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {node.color}
+                    </div>
+                  )}
+                </div>
               );
             })}
-          </svg>
+          </div>
 
-          {/* Commit nodes */}
-          {commits.map((commit, i) => {
-            const isActive = frame > i * 6;
-            const branchColor = commit.branch === "main" ? "#6e7681" : commit.branch === "feature" ? "#3fb950" : "#f78166";
-
-            return isActive ? (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  left: commit.x,
-                  top: commit.y,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {/* Commit circle */}
-                <div style={{
-                  width: 16,
-                  height: 16,
-                  borderRadius: "50%",
-                  backgroundColor: branchColor,
-                  border: `2px solid ${branchColor}`,
-                  boxShadow: `0 0 8px ${branchColor}`,
-                }} />
-
-                {/* Commit info */}
-                <div style={{
-                  backgroundColor: "#161b22",
-                  border: "1px solid #30363d",
-                  borderRadius: 6,
-                  padding: "6px 10px",
-                  minWidth: 200,
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
-                    <span style={{ fontFamily: "monospace", fontSize: 11, color: "#58a6ff" }}>{commit.id}</span>
-                    <span style={{ fontSize: 10, padding: "1px 6px", backgroundColor: branchColor + "33", color: branchColor, borderRadius: 10 }}>{commit.branch}</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: "#c9d1d9", marginBottom: 2 }}>{commit.message}</div>
-                  <div style={{ fontSize: 10, color: "#8b949e" }}>{commit.author} • {commit.time}</div>
-                </div>
-              </div>
-            ) : null;
-          })}
-
-          {/* Merge conflict indicator */}
-          {frame > 40 && frame < 80 && (
-            <div style={{
-              position: "absolute",
-              top: 170,
-              left: 150,
-              backgroundColor: "#f8514966",
-              border: "1px solid #f85149",
-              borderRadius: 6,
-              padding: "8px 12px",
-              fontSize: 12,
-              color: "#f85149",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}>
-              ⚠️ Merge conflict in payment.ts
-              <span style={{ fontSize: 10, padding: "2px 6px", backgroundColor: "#238636", color: "white", borderRadius: 4, marginLeft: 8 }}>
-                {conflictsResolved}/3 resolved
-              </span>
-            </div>
-          )}
+          {/* 힌트 텍스트 */}
+          <div style={{ marginTop: 20, fontSize: 12, color: "#666" }}>
+            <span style={{ marginRight: 20 }}><strong>H</strong> = Hint (git blame)</span>
+            <span style={{ marginRight: 20 }}><strong>R</strong> = Reset (git reset)</span>
+            <span><strong>ESC</strong> = Terminal Mode</span>
+          </div>
         </div>
       </div>
     </div>
