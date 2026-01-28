@@ -1,0 +1,23 @@
+{
+  "name": "hiddendesk-promo",
+  "version": "1.0.0",
+  "description": "HiddenDesk promotional video",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render HiddenDeskPromo out/promo.mp4",
+    "build:short": "remotion render ShortPromo out/short.mp4",
+    "build:all": "npm run build && npm run build:short"
+  },
+  "keywords": ["remotion", "video", "hiddendesk"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.410",
+    "@remotion/cli": "^4.0.410",
+    "@types/react": "^19.2.10",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.410",
+    "typescript": "^5.9.3"
+  }
+}
