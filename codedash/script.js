@@ -460,9 +460,9 @@ function gameLoop() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Update difficulty
-    currentScrollInterval = Math.max(4, BASE_SCROLL_INTERVAL - Math.floor(score / 25));
-    difficultyMultiplier = 1 + (score / 400);
+    // Update difficulty (much smoother curve)
+    currentScrollInterval = Math.max(12, BASE_SCROLL_INTERVAL - Math.floor(score / 80));
+    difficultyMultiplier = 1 + (score / 1000);
 
     // Update invincibility
     if (player.invincible) {
