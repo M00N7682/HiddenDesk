@@ -170,7 +170,7 @@ export default function Home() {
     }
   ];  const [games, setGames] = useState<Game[]>(initialGames);
   const [loading, setLoading] = useState(false); // Set to false to show initial data immediately
-  const [lang, setLang] = useState<'en' | 'ko'>('ko');
+  const [lang, setLang] = useState<'en' | 'ko'>('en');
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const t = translations[lang];
 
