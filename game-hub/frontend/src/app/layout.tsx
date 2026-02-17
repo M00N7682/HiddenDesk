@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   keywords: ["업무 집중 안 될 때", "3분만에 끝나는 웹게임", "회사에서 몰래할 수 있는 게임", "학교에서 몰래할 수 있는 게임", "월급루팡 게임", "스텔스 게임", "Hidden Desk", "미니게임", "웹게임"],
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
       { url: "/logo-icon.svg", type: "image/svg+xml" },
     ],
     apple: "/logo-icon.svg",
